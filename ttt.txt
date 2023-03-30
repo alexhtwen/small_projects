@@ -1,0 +1,1921 @@
+<div class="t1">
+
+# Python練習題
+
+</div>
+<div class='fonts'>
+
+## <div class='t2'>命題：Alex</div>
+原則：
+* 輸出字串盡量用f-string。
+* 函數的參數和傳回值要type hints。
+* 寫作風格盡量遵照PEP 8規範。
+* 變數和函數要取有意義且貼切的名稱。
+* <span class='R'>先嘗試自行解決</span>。碰到瓶頸無法突破時請善用Google或和ChatGPT討論。但請不要提交任何未經消化，連自己都不了解的code，浪費大家時間。
+---
+### <div class='t3'>ex87：病房管理系統</div>
+* 設計一個簡單的病房管理系統。
+* 系統有哪些功能請自行決定。以下是一些ChatGPT建議，或許可以考慮的點(參考而已，不一定要跟)：
+    * 病人管理：掛號、入院、出院、床號及換床紀錄等。
+    * 醫護人員管理：排班、權限等。
+    * EHR整合。
+    * 治療及用藥紀錄。
+    * 各種報告及分析：dashboard, 趨勢分析、改進報告等。
+    * 結帳及財務。
+    * 設備及庫存管理。
+    * 安全及隱私。
+    * 使用者體驗親和性。
+    * 其他專業需要功能...
+* 內容深淺悉隨尊便，能寫多少算多少。
+---
+### <div class='t3'>ex86函數-剪刀石頭布</div>
+* 規格：
+    |<div class='T'><center>名稱|<div class='T'><center>參數|<div class='T'><center>傳回值|<div class='T'><center>功能|
+    |-|-|-|-|
+    |<span class='R'>roshambo<div class>|名稱-1: <span class='R'>player1</span><br>型別: <span class='HQ'>str</span><br>意義: 玩家1<br>預設:`'John Doe'`|<span class='HQ'>dict</span>|<ol><li>。</li><li>。</li><li>。</li><li>。</li><li>。</li><li>。</li></ol>|
+* 測試程式：
+    ```python=
+    print(f"{roshambo() = }\n")
+    print(f"{roshambo('奕辰', '欣怡') = }\n")
+    print(f"{roshambo('柏宇', '子晴') = }\n")
+
+    shapes = ('rock', 'paper', 'scissors')
+    print(f'{shapes = }')
+    print(f"{roshambo('Em', 'Ro', shapes) = }\n")
+
+    shapes = ('布', '剪刀', '石頭')
+    print(f'{shapes = }')
+    print(f"{roshambo('Al', 'Bo', shapes) = }\n")
+
+    shapes = ('剪刀', '大理石', '鑽石', '布')
+    print(f'{shapes = }')
+    print(f"{roshambo('Ed', 'Jo', shapes) = }\n")
+
+    shapes = ('剪刀', '大理石', '花崗石', '鑽石', '布')
+    print(f'{shapes = }')
+    print(f"{roshambo('張', '李', shapes) = }\n")
+    ```
+* 輸出：
+    ![](https://i.imgur.com/ecD2KAQ.png =1000x)
+---
+### <div class='t3'>ex85：函數-括號匹配-2</div>
+* 改進ex84的傳回值以顯示較詳細資訊：
+    |<div class='T'><center>傳回值|<div class='T'><center>意義|
+    |-|-|
+    |<span class='HQ'>int</span>|<ol><li>匹對正確傳回-1。</li><li>錯誤時傳回出錯點的索引編號。|
+* 測試程式：
+    ```python=
+    print(f"{is_paired()                                   = }")    # -1
+    print(f"{is_paired('')                                 = }")    # -1
+    print(f"{is_paired('abc(..{+- <***>}567[00]321: )xyz') = }")    # -1
+    print(f"{is_paired('abc(..{+- <***> 567[00]321: )xyz') = }")    # 28
+    print(f"{is_paired('abc(..{+- >***<}567[00]321: )xyz') = }")    # 10
+    print(f"{is_paired('abc(..{+- <***>}567[00)321: ]xyz') = }")    # 22
+    print(f"{is_paired('abcpy..+- |_***56700321e xy  ^^z') = }")    # -1
+    print(f"{is_paired('abcpy..+- |_***56700321{ xy  ^^z') = }")    # 31
+    print(f"{is_paired('abcpy..+- |_***56700>321 xy  ^^z') = }")    # 20
+    ```
+* 輸出：
+    ![](https://i.imgur.com/VbOM5Mm.png =500x)
+---
+### <div class='t3'>ex84：函數-括號匹配-1</div>
+* 規格：
+    |<div class='T'><center>名稱|<div class='T'><center>參數|<div class='T'><center>傳回值|<div class='T'><center>功能|
+    |-|-|-|-|
+    |<span class='R'>is_paired<div class>|名稱: <span class='R'>chars</span><br>型別: <span class='HQ'>str</span><br>意義: 原字串<br>預設: `''`|<span class='HQ'>bool</span>|<ol><li>檢查<span class='R'>chars</span>中這4種括號<br>`()`, `[]`, `{}`, `<>`<br>是否正確排列。規則：<ul><li>須成對(paired)。</li><li>先開後閉。</li><li>可巢套(nested)，<br>但不可交叉。</li></ul></li><li>檢查無誤傳回<span class='HQ'>True</span>。</li><li>檢查有錯傳回<span class='HQ'>False</span>。</li><li>無任何括號亦傳回<span class='HQ'>True</span>。</li></ol>|
+* 測試程式：
+    ```python=
+    print(f"{is_paired()                                   = }")    # True (no argument passed)
+    print(f"{is_paired('')                                 = }")    # True (empty string)
+    print(f"{is_paired('abc(..{+- <***>}567[00]321: )xyz') = }")    # True (balanced)
+    print(f"{is_paired('abc(..{+- <***> 567[00]321: )xyz') = }")    # False (not paired)
+    print(f"{is_paired('abc(..{+- >***<}567[00]321: )xyz') = }")    # False (closed before open)
+    print(f"{is_paired('abc(..{+- <***>}567[00)321: ]xyz') = }")    # False (crossed)
+    print(f"{is_paired('abcpy..+- |_***56700321e xy  ^^z') = }")    # True (no any brackets)
+    print(f"{is_paired('abcpy..+- |_***56700321{ xy  ^^z') = }")    # False (single open)
+    print(f"{is_paired('abcpy..+- |_***56700>321 xy  ^^z') = }")    # False (single closed)
+    ```
+* 輸出：
+    ![](https://i.imgur.com/QUyHJ22.png =500x)
+---
+### <div class='t3'>ex83： Mastermind</div>
+* Mastermind遊戲相信很多人都玩過。它可以有不同規則，其中之一是：
+    * 兩人對玩。一人稱為setter(或code-maker)，另一為analyst(或code-breaker)。
+    * setter設定一組4位不重複數字。
+    * analyst設法猜出這組數字。
+    * 猜的4位數字逐字元和答案比對，如「值」對「位置」也對，稱為`A`，值對但位置不對則算`B`。
+    * setter統計並提示本輪得幾個`A`幾個`B`。
+    * analyst依每一輪提示，運用邏輯推論來縮小答案範圍再猜。
+    * 重複以上程序，直到猜中為止。例如：
+        |<div class='T'><center>答案|<div class='T'><center>輪數|<div class='T'><center>猜測|<div class='T'><center>提示|
+        |-|-:|-|-|
+        |7068|1|1234|0A0B|
+        |7068|2|5678|1A2B|
+        |7068|3|9678|1A2B|
+        |7068|4|0768|2A2B|
+        |7068|..|...|...|
+        |7068|N|7068|4A0B|
+* 寫code模擬這個game。電腦是setter，使用者則是analyst。
+* 您如想自我挑戰，讓使用者作setter，電腦為analyst，也未嘗不可，只是困難很多。
+---
+### <div class='t3'>ex82：效能比較</div>
+* 比較ex76兩個函數的效能。
+* 這裡的效能是指程式<span class='r'>執行時期的速度</span>。
+* 提示：如果兩個函數的執行時間都很短，兩者的比較會很不明顯，且無法確定這種微小差異，會不會由測量誤差所致。這時可跑不只一遍，而是N遍(例如N=100000)，雙方差別才能拉開，降低測量效應。
+---
+### <div class='t3'>ex81：comprehension</div>
+* 請在做過的題目中，任挑<span class='R'>3題</span>以<span class='R'>comprehension</span>改寫。
+* 提示：較適合使用<span class='r'>comprehension</span>的題目大概為：79, 78, 77, 73, 72, 62, 57, 56, 55, 51, 50, 46, 43, 42, 37, 36, 35, 34, 31, 30, 29, 28, 22, 19, 17。
+---
+### <div class='t3'>ex80：改錯字</div>
+```python=
+    patients = [
+        {'id': 1, 'nam': '劉◯永', 'BW': 65.3},
+        {'id': 2, 'nam': '吳◯雲', 'BW': 76.7},
+        {'id': 3, 'nam': '李◯雪', 'BW': 43.6},
+        {'id': 4, 'nam': '羅◯婷', 'BW': 53.8},
+        {'id': 5, 'nam': '沈◯萱', 'BW': 86.9}
+]
+```
+* 以上的dict，`name`誤作`nam`，請寫一個函數來修正這個拼寫錯誤。
+* 函數名稱、參數、傳回值和測試程式均請自定。
+* 不寫成函數亦可。
+* 最好能保持原key次序：即：
+    * `{'id': 1, 'name': '劉◯永', 'BW': 65.3}`
+    而非
+    * `{'id': 1, 'BW': 65.3, 'name': '劉◯永'}`
+* 保留不了原順序，最少要能改正錯誤。
+* 參考：Python在3.7版起就在語言規格上保證dict的pairs順序。
+---
+### <div class='t3'>ex79：函數-反複去首尾-3</div>
+* 修改ex78，傳回值改為最後一輪的字串(不是list)。
+---
+### <div class='t3'>ex78：函數-反複去首尾-2</div>
+* 將ex77的每一輪切除首尾1字元改為切除首尾n字元。n為本函數的第2個參數。
+* 例如raw=`'*abcdefghijklmnopqrstuvwxyz*'`，n=3，則應傳回：
+    `['cdefghijklmnopqrstuvwx', 'fghijklmnopqrstu', 'ijklmnopqr', 'lmno']`。
+* 函數名稱請自訂。
+* 測試程式可拿ex77的修改，加長<span class='r'>raw</span>。
+* 傳回值也是list，最末元素亦不可為空字串`''`。
+---
+### <div class='t3'>ex77：函數-反複去首尾-1</div>
+* 規格：
+    |<div class='T'><center>名稱|<div class='T'><center>參數|<div class='T'><center>傳回值|<div class='T'><center>功能|
+    |-|-|-|-|
+    |<span class='R'>truncate_strs<div class>|名稱: <span class='R'>raw</span><br>型別: <span class='HQ'>int</span><br>意義: 原字串<br>預設: `''`|<span class='HQ'>list</span>|<ol><li>反複切除首尾字元：<ul><li>第1輪切除<span class='r'>raw</span>的最前<br>及最末字元而成另一<br>字串。</li><li>第2輪將第1輪切出的<br>子字串當作為輸入，<br>再切除首尾字元而成<br>第2個子字串。</li><li>And so on...</li><li>至無法切割為止，即<br><span class='r'>不能切出空字串</span>。</li></ul></li><li>每輪切出的字串(含最後<br>無法切割的字串)依次存<br>入一個list。</li><li>傳回該list。</li></ol>|
+* 測試程式：
+    ```python=
+    print(f"{truncate_strs() = }")               # 無參數 (傳回空list)
+    print(f"{truncate_strs('') = }")             # 空字串 (傳回空list)
+    print(f"{truncate_strs('A') = }")            # one char (傳回空list)
+    print(f"{truncate_strs('AB') = }")           # two chars (傳回空list)
+    print(f"{truncate_strs('ABC') = }")          # odd
+    print(f"{truncate_strs('abcdef') = }")       # even
+    print(f"{truncate_strs('abcdefg') = }")      # odd
+    print(f"{truncate_strs('Charming') = }")     # even
+    print(f"{truncate_strs('抽刀斷水') = }")     # even
+    print(f"{truncate_strs(' ^*123*^ ') = }")    # odd
+    ```
+* 輸出：
+    ![](https://i.imgur.com/Fq7GX2e.png =600x)
+---
+### <div class='t3'>ex76：函數-猜數字</div>
+* 規格：
+    |<div class='T'><center>名稱|<div class='T'><center>參數|<div class='T'><center>傳回值|<div class='T'><center>功能|
+    |-|-|-|-|
+    |<span class='R'>guess_num<div class>|名稱-1: <span class='R'>lo</span><br>型別: <span class='HQ'>int</span><br>意義: 下限<br>預設: 1<br>&#x2015;&#x2015;&#x2015;&#x2015;&#x2015;&#x2015;<br>名稱-2: <span class='R'>hi</span><br>型別: <span class='HQ'>int</span><br>意義: 上限<br>預設: 100|<span class='HQ'>tuple</span>|<ol><li>玩個猜數字遊戲。</li><li>遊戲規則見下。</li></ol>|
+* 遊戲規則：
+    1. 兩個機器人AlpHa和OmeGa互猜數字。
+    2. AlpHa依傳入的上、下限參數隨機產生一個整數作為「答案」。例如<span class='r'>lo</span>=101，<span class='r'>hi</span>=120，表示答案要從101到120(均含)之間隨機生成。
+    3. OmeGa的任務是要去猜這個答案。
+    4. AlpHa核對是否猜中。猜不中可以<span class='r'>提示比答案大還是小</span>。
+    5. OmeGa猜錯再猜，直到猜中為止。
+    6. 猜中後依猜測次數計算得分：
+        * 「一矢中的」得100分。
+        * 每多猜一次扣5分。
+        * 最多扣到0分，不能為負。
+    7. 傳回<span class='r'>猜測次數</span>以及<span class='r'>得分</span>。
+* 當然，前面兩個機器人的說法只是方便述敘。函數內不必真的要有機器人，所謂「提示」就用個最普通的判斷即可，不要想太多。
+* <span class='r'>寫2個版本</span>。一個有提示答案大小，另一個不提示。<span class='r'>觀察兩者的平均猜測次數</span>。
+* 測試程式：
+    ```python=
+    # 此程式目的是測試函數的效率。猜測次數越少(得分越高)者，表示函數的演算法
+    # 越佳，效能越好。
+    # 程式反複執行loops次，再算平均猜測次數和平均得分。
+    lo = 1
+    hi = 100
+    loops = 1000
+    sum_guesses = 0
+    sum_scores = 0
+
+    for _ in range(loops):
+        guesses, score = guess_num(lo, hi)
+        sum_guesses += guesses
+        sum_scores += score
+
+    print(f'平均猜測次數：{round(sum_guesses / loops, 2)}')
+    print(f'平均得分　　：{round(sum_scores / loops, 2)}')
+    ```
+* 輸出：
+    ![](https://i.imgur.com/Wjpjt9U.png =300x)
+---
+
+### <div class='t3'>ex75：函數-比對是否同一物件</div>
+* 規格：
+    |<div class='T'><center>名稱|<div class='T'><center>參數|<div class='T'><center>傳回值|<div class='T'><center>功能|
+    |-|-|-|-|
+    |<span class='R'>is_same_obj<div class>|名稱-1: <span class='R'>obj1</span><br>型別: <span class='HQ'>object</span><br>意義: 第一個比對物件<br>預設: 無<br>&#x2015;&#x2015;&#x2015;&#x2015;&#x2015;&#x2015;<br>名稱-2: <span class='R'>obj2</span><br>型別: <span class='HQ'>object</span><br>意義: 第二個起，數量<br>　　　不定的物件<br>預設: 無|<span class='HQ'>list</span>|<ol><li>最少傳入二個參數，<br>最多不限。</li><li>將各參數兩兩比對<br>是否為同一物件。</li><li>比對結果為<span class='HQ'>True</span>或<br><span class='HQ'>False</span>。</li><li>將各個比對結果<br>存入list並傳回。</li></ol>|
+* 測試程式：
+    ```python=
+    import copy
+
+    print(f"{is_same_obj(1) = }\n")
+
+    a = 1; b = 1
+    print("a = 1; b = 1")
+    print(f"{is_same_obj(a, b) = }\n")
+
+    a = 3; b = 4; c = a
+    print("a = 3; b = 4; c = a")
+    print(f"{is_same_obj(a, b, c) = }\n")
+
+    a = 'A'; b = 'B'; c = 'C'; d = 'B'
+    print("a = 'A'; b = 'B'; c = 'C'; d = 'B'")
+    print(f"{is_same_obj(a, b, c, d) = }\n")
+
+    a = [1, 3, 5]; b = a
+    print("a = [1, 3, 5]; b = a")
+    print(f"{is_same_obj(a, b) = }\n")
+
+    a = [1, 3, 5]; b = copy.copy(a)
+    print("a = [1, 3, 5]; b = copy.copy(a)")
+    print(f"{is_same_obj(a, b) = }\n")
+
+    a = (1, 3, 5); b = a
+    print("a = (1, 3, 5); b = a")
+    print(f"{is_same_obj(a, b) = }\n")
+
+    a = (1, 3, 5); b = copy.deepcopy(a)
+    print("a = (1, 3, 5); b = copy.deepcopy(a)")
+    print(f"{is_same_obj(a, b) = }\n")
+
+    a = {2, 8, 4, 7}; b = a; c = b; d = copy.copy(c)
+    print("a = {2, 8, 4, 7}; b = a; c = b; d = copy.copy(c)")
+    print(f"{is_same_obj(a, b, c, d) = }\n")
+
+    a = {2, 8, 4, 7}; b = copy.copy(a); c = copy.deepcopy(a)
+    print("a = {2, 8, 4, 7}; b = copy.copy(a); c = copy.deepcopy(a)")
+    print(f"{is_same_obj(a, b, c) = }\n")
+
+    a = {'id': 1, 'name': 'Alex'}; b = a
+    print("a = {'id': 1, 'name': 'Alex'}; b = a")
+    print(f"{is_same_obj(a, b) = }\n")
+
+    a = {'id': 1, 'name': 'Alex'}; b = copy.deepcopy(a); c = b
+    print("{'a = {'id': 1, 'name': 'Alex'}; b = copy.deepcopy(a); c = b")
+    print(f"{is_same_obj(a, b, c) = }\n")
+
+    print(f"{is_same_obj(True, True, False) = }\n")
+
+    print(f"{is_same_obj(None, None) = }\n")
+    ```
+* 輸出：
+    ![](https://i.imgur.com/RhGfm0D.png =600x)
+    ![](https://i.imgur.com/MShwIEN.png =600x)
+---
+
+### <div class='t3'>ex74：函數-骨科用藥</div>
+* 規格：
+    |<div class='T'><center>名稱|<div class='T'><center>參數|<div class='T'><center>傳回值|<div class='T'><center>功能|
+    |-|-|-|-|
+    |<span class='R'>rx</span>|名稱: <span class='R'>**medicines</span><br>型別: <span class='HQ'>dict</span><br>意義: 數量不確定的<br>　　　藥名和劑量<br>預設: 無|<span class='HQ'>None</span>|<ol><li>傳入數量不固定的關鍵<br>字參數。</li><li>關鍵字是藥名，其值是<br>劑量。</li><li>函數內印出藥名和劑量。</li><li>函數無傳回值，或者您<br>想傳回某些資訊亦可。</li></ol>|
+* 測試程式：
+    ```python=
+    # 傳出不定數量的關鍵字參數給函數。
+    rx(abc=35, ed=18.5, xyz=52)   # 實際藥名和劑量請自行修改調整。
+    print()
+    rx(rst=3.6, ytre=25)
+    print()
+    rx(mno=3.6, Bkli=25, Leme=10.5, rr=6, tt=7.0)
+    ```
+* 輸出：
+    ![](https://i.imgur.com/Yw3Ngj8.png =400x)
+---
+
+### <div class='t3'>ex73：函數-首尾比大</div>
+* 規格：
+    |<div class='T'><center>名稱|<div class='T'><center>參數|<div class='T'><center>傳回值|<div class='T'><center>功能|
+    |-|-|-|-|
+    |<span class='R'>max_mirror</span>|名稱: <span class='R'>nums</span><br>型別: <span class='HQ'>tuple/list</span><br>意義: 元素全為整數<br>　　　的序列<br>預設: ()|<span class='HQ'>list</span>|<ol><li><span class='r'>nums</span>首尾元素各自運算後再<br>比較，取其大者：<ul><li>第1個元素`*`N(N=1) vs<br>最末元素平方</li><li>第2個元素`*`N(N=2) vs<br>倒數第2個元素平方</li><li>And so on(N += 1)...</li><li>中間元素如落單，比其值<br>乘以N及其平方之大者。</li></ul></li><li>計算後的各數值組成list。</li><li>傳回該list。</li></ol>|
+* 測試程式：
+    ```python=
+    print(f'{max_mirror() = }')             # [] (無參數)
+    print(f'{max_mirror(()) = }')           # [] (空tuple)
+    print(f'{max_mirror([]) = }')           # [] (空list)
+    print(f'{max_mirror((2,)) = }')         # [4]
+    print(f'{max_mirror([100, -10]) = }')   # [100]
+    print(f'{max_mirror((82, 12, 4, 7, 9)) = }')   # [82, 49, 16]
+    print(f'{max_mirror((8, 25, 2, 6, 4, -6, -2, -7, -8)) = }')   # [64, 50, 6, 36, 20]
+    print(f'{max_mirror([10, 0, 8, -5, 5, 3]) = }')   # [10, 25, 51]
+    ```
+* 輸出：
+    ![](https://i.imgur.com/m39Jtj7.png =800x)
+* Bonus：
+    * 中間元素落單時保留原值。
+    * 中間元素落單時捨棄不納。
+---
+
+### <div class='t3'>ex72：函數-首尾相加</div>
+* 規格：
+    |<div class='T'><center>名稱|<div class='T'><center>參數|<div class='T'><center>傳回值|<div class='T'><center>功能|
+    |-|-|-|-|
+    |<span class='R'>add_mirror</span>|名稱: <span class='R'>nums</span><br>型別: <span class='HQ'>tuple/list</span><br>意義: 元素全為整數<br>　　　的序列<br>預設: ()|<span class='HQ'>list</span>|<ol><li>將<span class='r'>nums</span>的元素首尾相加：<ul><li>第1個元素 + 最末元素</li><li>第2個元素 + 倒數第2個元素</li><li>And so on...</li><li>中間元素如落單即自加。</li></ul></li><li>相加後的各「和」組成list。</li><li>傳回該list。</li></ol>|
+* 測試程式：
+    ```python=
+    print(f'{add_mirror() = }')      # [] (無參數)
+    print(f'{add_mirror(()) = }')    # [] (空tuple)
+    print(f'{add_mirror([]) = }')    # [] (空list)
+    print(f'{add_mirror((100,)) = }')   # [200]
+    print(f'{add_mirror([100, -50]) = }')   # [50]
+    print(f'{add_mirror((1, 3, 4, 7, 9)) = }')   # [10, 10, 8]
+    print(f'{add_mirror([9, 0, -6, 32, 7, 11]) = }')   # [20, 7, 26]
+    print(f'{add_mirror((8, 10, 2, 6, 23, -6, -2, -10, -8)) = }')   # [0, 0, 0, 0, 46]
+    ```
+* 輸出：
+    ![](https://i.imgur.com/iT5OyoC.png =800x)
+* Bonus：
+    * 中間元素落單時保留原值。
+    * 中間元素落單時捨棄不納。
+---
+### <div class='t3'>ex71：函數-鍵值互調</div>
+* 規格：
+    |<div class='T'><center>名稱|<div class='T'><center>參數|<div class='T'><center>傳回值|<div class='T'><center>功能|
+    |-|-|-|-|
+    |<span class='R'>flip</span>|名稱: <span class='R'>source</span><br>型別: <span class='HQ'>dict</span><br>意義: 原dict<br>預設: 無|<span class='HQ'>dict</span>|<ol><li><span class='r'>source</span>的每一組key/value<br>pair互調，產生一個新dict。</li><li>傳回該新dict。</li></ol>|
+* 規定：<span class='r'>本題須用comprehension做</span>。
+* 測試程式：
+    ```python=
+    flip({1: 2, 3: 4, 5: 6, 7: 8, 9: 0})
+    flip({'id': 1, 'name': 'Alex', 'is_veg': False, 'height': None})
+    flip({'spouse': 'Marrianne', 'children': ('Rebecca', 'Thomas')})
+    flip({'pi': 3.1416, 'gold ratio': 1.618, 'Kaprekar': 6174})
+    ```
+* 輸出：
+    ![](https://i.imgur.com/yPqBLkc.png =700x)
+---
+### <div class='t3'>ex70：函數-醫療費用</div>
+* 規格：
+    |<div class='T'><center>名稱|<div class='T'><center>參數|<div class='T'><center>傳回值|<div class='T'><center>功能|
+    |-|-|-|-|
+    |<span class='R'>get_fee|名稱: <span class='R'>fees</span><br>型別: <span class='HQ'>dict</span><br>意義: 骨科診費<br>預設: {}|<span class='HQ'>int</span>|<ol><li>依<span class='r'>fees</span>計算所有醫療<br>費用。</li><li><span class='r'>fees</span>所有可能的keys為：<ul><li>門診掛號費</li><li>門診次數</li><li>急診掛號費</li><li>急診次數</li><li>總診察費</li><li>自付鋼板費</li><li>其他費用</li></ul></li><li>key可能從缺。</li></ol>|
+* 測試程式：
+    ```python=
+    fees = {'門診掛號費': 390, '門診次數': 6, '急診掛號費': 600, '急診次數': 1, '總診察費': 2000, '自付鋼板費': 75_000}
+    print(f'{fees = }')
+    print(f"{get_fee(fees) = }")
+    fees = {'門診掛號費': 470, '門診次數': 4, '急診掛號費': 800, '其他費用': 3200}
+    print(f'{fees = }')
+    print(f"{get_fee(fees) = }")
+    fees = {}
+    print(f'{fees = }')
+    print(f"{get_fee(fees) = }")
+    ```
+* 輸出：
+    ![](https://i.imgur.com/Auj4rMd.png =1500x)
+---
+### <div class='t3'>ex69：函數-插入區隔符</div>
+* 規格：
+    |<div class='T'><center>名稱|<div class='T'><center>參數|<div class='T'><center>傳回值|<div class='T'><center>功能|
+    |-|-|-|-|
+    |<span class='R'>insert_sep<div class>|名稱-1: <span class='R'>raw</span><br>型別: <span class='HQ'>str</span><br>意義: 原字串<br>預設: `''`空字串<br>&#x2015;&#x2015;&#x2015;&#x2015;&#x2015;&#x2015;<br>名稱-2: <span class='R'>sep</span><br>型別: <span class='HQ'>tuple或list</span><br>意義: 由區隔字串<br>　　　組成的序列<br>預設: ()|<span class='HQ'>str</span>|<ol><li>從<span class='r'>sep</span>中隨機抽取<br>一個元素作為區<br>隔符。</li><li>在<span class='r'>raw</span>的每個字元<br>間加插區隔符，<br>組成新字串。</li><li><span class='r'>sep</span>為空時傳回空字串。</li><li>新字串要切除<br>前後的空白。</li><li>傳回該新字串。</li></ol>|
+* 測試程式：
+    ```python=
+    print(f"{insert_sep() = }")
+    print(f"{insert_sep('Python') = }")
+    print(f"{insert_sep(sep=()) = }")
+    print(f"{insert_sep('abcdefg', ('.', ',')) = }")
+    print(f"{insert_sep('人有悲歡離合', ('*', '_', '^')) = }")
+    print(f"{insert_sep('月有陰晴圓缺', (' ',)) = }")
+    print(f"{insert_sep('123456', ('+', '-', '*', '/')) = }")
+    print(f"{insert_sep('心肝脾肺腎 ', ('臟 ',)) = }")
+    sep = (' 肩胛', ' 下頜', ' 肋', ' 肱', ' 中節趾')
+    print(f'{sep = }')
+    print(f"{insert_sep(' 骨骨骨骨', sep) = }")
+    ```
+* 輸出：
+    ![](https://i.imgur.com/rnxD4lv.png =600x)
+---
+### <div class='t3'>ex68：函數-判斷型別</div>
+* 規格：
+    |<div class='T'><center>名稱|<div class='T'><center>參數|<div class='T'><center>傳回值|<div class='T'><center>功能|
+    |-|-|-|-|
+    |<span class='R'>get_type<div class>|名稱: <span class='R'>raw</span><br>型別: <span class='HQ'>tuple/list</span><br>意義: 欲處理的資料<br>預設: ()|<span class='HQ'>tuple<br>　　　list</span>|<ol><li>判斷<span class='r'>raw</span>每個元素的型別，<br>作不同處理：<ul><li>str: <ul><li>全為數字: 前面補零至<br>N位，N可自訂。</li><li>非全數字: 拷貝原值。</li></ul></li><li>int: 正負互調。</li><li>float: 四捨六入五成雙<br>(`banker's rounding`)<br>至小數點後2位。</li><li>bool: 真假值互調。</li><li>None: 改為字串`'null'`。</li><li>list: 改為tuple。</li><li>tuple: 改為list。</li><li>set: 隨機刪除一個元素。</li><li>dict: 從`'ABC'`中隨機<br>1字元作為key。<ul><li>原dict無該key即增加，<br>value從0-9中隨機。</li><li>原dict如已有該key，<br>value維持原值不改。</li></ul></li><li>其他型別: 拷貝原值。</li></ul></li><li>處理後的元素依<span class='r'>raw</span>型別<br>組成一新tuple或list。</li><li>傳回該新tuple/list。</li></ol>|
+* 測試程式：
+    ```python=
+    from datetime import timedelta
+
+    print(f'{get_type() = }')       # 無參數
+    print(f'{get_type(()) = }')     # 參數為空的tuple
+    print(f'{get_type([]) = }\n')   # 參數為空的list
+    raw = ['A', '5', -5, 1.618, False, None, [2], (4,), {3, 8, 1}, {'A': 5}]
+    print(f'{raw = }')
+    print(f'{get_type(raw) = }\n')
+
+    raw = (complex(50), range(5), type(2), timedelta(days=3))
+    print(f'{raw = }')
+    print(f'{get_type(raw) = }')
+    ```
+* 輸出：
+    ![](https://i.imgur.com/pCHC8dJ.png =700x)
+---
+### <div class='t3'>ex67：函數-水仙花數</div>
+* 水仙花數(Narcissistic number)又名自戀數、自冪數、阿姆斯壯數(Armstrong number)，定義為：N位非負整數，其各位數字的N次方和等於該數本身。例如：
+    <div class='f120'>
+
+    |<div class='T'><center>原整數|<div class='T'><center>位數|<div class='T'><center>運算|<div class='T'><center>結果|<div class='T'><center>是否<br>水仙花數|
+    |-|-|-|-|-|
+    |153|3|1<sup>3</sup>+ 5<sup>3</sup>+ 3<sup>3</sup>|153|True|
+    |276|3|2<sup>3</sup>+ 7<sup>3</sup>+ 6<sup>3</sup>|567|False|
+    |1634|4|1<sup>4</sup>+ 6<sup>4</sup>+ 3<sup>4</sup>+ 4<sup>4</sup>|1634|True|
+    |5028|4|5<sup>4</sup>+ 0<sup>4</sup>+ 2<sup>4</sup>+ 8<sup>4</sup>|4737|False|
+    </div>
+* 規格：
+    |<div class='T'><center>名稱|<div class='T'><center>參數|<div class='T'><center>傳回值|<div class='T'><center>功能|
+    |-|-|-|-|
+    |<span class='R'>armstrong</span>|名稱: <span class='R'>number</span><br>型別: <span class='HQ'>int</span><br>意義: 欲驗證的整數<br>預設: 無|<span class='HQ'>bool</span>|<ol><li>求<span class='r'>number</span>是否為<br>Armstrong number。</li><li>是⮕傳回True</li><li>否⮕傳回False</li></ol>|
+* 測試程式：
+    ```python=
+    print(f'{armstrong(153) = }')
+    print(f'{armstrong(724) = }')
+    print(f'{armstrong(1634) = }')
+    print(f'{armstrong(2709) = }')
+    print(f'{armstrong(93084) = }')
+    print(f'{armstrong(62530) = }')
+    ```
+* 輸出：
+    ![](https://i.imgur.com/BCIWaEp.png =300x)
+---
+### <div class='t3'>ex66：函數-骨折</div>
+* 函數規格(版本-1)：
+    |<div class='T'><center>名稱|<div class='T'><center>參數|<div class='T'><center>傳回值|<div class='T'><center>功能|
+    |-|-|-|-|
+    |<span class='R'>fracture</span>|名稱: <span class='R'>raw</span><br>型別: <span class='HQ'>tuple</span><br>意義: 欲處理的資料<br>預設: ()|<span class='HQ'>dict</span>|<ol><li>將<span class='r'>raw</span>轉為dict。</li><li>dict的key是<span class='r'>raw</span>的第1個<br>元素，value則為<span class='r'>raw</span>的<br>第2個元素。</li><li>傳回該dict。</li></ol>|
+* 版本-2：將版本-1的<span class='r'>raw</span>改為每個元素都是字串，第1個是key，其餘為value。傳回值結構則相同，dict的value要是tuple。
+* 版本-1測試程式：
+    ```python=
+    print(f"1. {fracture()}")        # 無參數
+    print(f"2. {fracture(())}")      # 有參數，但參數是個空的tuple。
+    print(f"3. {fracture(('斷骨狀態', ('不完全骨折', '完全骨折', '粉碎性骨折')))}")
+    print(f"4. {fracture(('骨折部位', ('顱骨骨折', '腕骨骨折', '脊椎骨折', '骨盆骨折', '股骨骨折', '肋骨骨折', '肩骨折', '肱骨骨折', ...)))}")
+    print(f"5. {fracture(('處理步驟', ('檢查症狀', '檢查受傷位置', '初步固定', '送醫檢查')))}")
+    print(f"6. {fracture(('手術方式', ('傳統手術', '微創手術')))}")
+    print(f"7. {fracture(('鋼板種類', ('健保鋼板', '自費鋼板')))}")
+    print(f"8. {fracture(('鋼板廠牌', ('DePuy Synthes', 'Stryker', 'Zimmer Biomet', 'Smith & Nephew', 'APS')))}")
+    print(f"9. {fracture(('用藥', ('Tylenol', 'Advil', 'Motrin IB', 'teriparatide', 'naproxen', 'ibuprofen')))}")
+    ```
+* 版本-2測試程式：
+    ```python=
+    print(f"1. {fracture()}")        # 無參數
+    print(f"2. {fracture(())}")      # 有參數，但參數是個空的tuple。
+    print(f"3. {fracture(('斷骨狀態', '不完全骨折', '完全骨折', '粉碎性骨折'))}")
+    print(f"4. {fracture(('骨折部位', '顱骨骨折', '腕骨骨折', '脊椎骨折', '骨盆骨折', '股骨骨折', '肋骨骨折', '肩骨折', '肱骨骨折', ...))}")
+    print(f"5. {fracture(('處理步驟', '檢查症狀', '檢查受傷位置', '初步固定', '送醫檢查'))}")
+    print(f"6. {fracture(('手術方式', '傳統手術', '微創手術'))}")
+    print(f"7. {fracture(('鋼板種類', '健保鋼板', '自費鋼板'))}")
+    print(f"8. {fracture(('鋼板廠牌', 'DePuy Synthes', 'Stryker', 'Zimmer Biomet', 'Smith & Nephew', 'APS'))}")
+    print(f"9. {fracture(('用藥', 'Tylenol', 'Advil', 'Motrin IB', 'teriparatide', 'naproxen', 'ibuprofen'))}")
+   ```
+* 兩版相同輸出：
+    ![](https://i.imgur.com/NV9hUfT.png =800x)
+---
+### <div class='t3'>ex65：函數-共同字首或字尾</div>
+* 規格：
+    |<div class='T'><center>名稱|<div class='T'><center>參數|<div class='T'><center>傳回值|<div class='T'><center>功能|
+    |-|-|-|-|
+    |<span class='R'>head_tail<div class>|名稱-1: <span class='R'>words</span><br>型別: <span class='HQ'>tuple</span><br>意義: 待搜尋的tuple<br>預設: ()<br>&#x2015;&#x2015;&#x2015;&#x2015;&#x2015;&#x2015;<br>名稱-2: <span class='R'>common</span><br>型別: <span class='HQ'>str</span><br>意義: `'head'`:字首<br>　　　`'tail'`:字尾<br>　　　`'both'`:首尾<br><center>(不拘分大小寫)</center>預設: `'head'`|<span class='HQ'>str</span>|<ol><li><span class='r'>words</span>的每個元素都<br>是一個英文單字，<br>型別是str。</li><li>依<span class='r'>common</span>找出每個<br>單字共同的字首、<br>字尾或首尾字串。</li><li><span class='r'>common</span>為`'head'`時<br>共同首尾字串間以<br>底線`_`區隔。</li><li>傳回該字串。</li></ol>|
+* 測試程式：
+    ```python=
+    # 請自行修改測試程式，以練習「關鍵字參數」。
+    raw = ('lever', 'leveler', 'levier')  # 3
+    print(f'{raw = }')
+    print(f"{head_tail(raw, 'both') = }\n")   # 'lev_er'
+
+    raw = ['chinese', 'church', 'cheese', 'choice']   # 4
+    print(f'{raw = }')
+    print(f"{head_tail(raw, 'head') = }\n")   # 'ch'
+
+    raw = ['anorexia', 'alexia', 'anoxia', 'ataraxia', 'apraxia']   # 5
+    print(f'{raw = }')
+    print(f"{head_tail(raw, 'tail') = }\n")   # 'xia'
+
+    raw = ['psychotherapist', 'psycholinguist', 'psychobiologist', 'psychologist', 'psychophysicist', 'psychiatrist']   # 6
+    print(f'{raw = }')
+    print(f"{head_tail(raw, 'both') = }\n")   # 'psych_ist'
+    ```
+* 輸出：
+    ![](https://i.imgur.com/Aywevqi.png =1200x)
+---
+### <div class='t3'>ex64：函數-會員等級</div>
+* 規格：
+    |<div class='T'><center>名稱|<div class='T'><center>參數|<div class='T'><center>傳回值|<div class='T'><center>功能|
+    |-|-|-|-|
+    |<span class='R'>get_member_level</span>|名稱: <span class='R'>amount</span><br>型別: <span class='HQ'>int</span><br>意義: 消費金額<br>預設: 無<br>|<span class='HQ'>str</span>|<ol><li>某會所根據會員上年度消費<br>金額(<span class='r'>amount</span>)，畫分為不同<br>等級：<br><table><tr><th><div class='T'>消費金額(元)</span></th><th><div class='T'>會員等級</span></th></tr><tr><td>0-10000</td><td>奇石會員</td></tr><tr><td>10001-100000</td><td>翡翠會員</td></tr><tr><td>100001-500000</td><td>珍珠會員</td></tr><tr><td>500001-1000000</td><td>黃金會員</td></tr><tr><td>1000001-5000000</td><td>白金會員</td></tr><tr><td>5000001以上</td><td>鑽石會員</td></tr></table></li><li>傳回會員等級。</li></ol>|
+* 測試程式：
+    ```python=
+    amounts = (10_000, 90_000, 350_000, 500_001, 4_999_999, 30_000_000)
+    for amount in amounts:
+        print(f'消費金額{amount:>12,}: {get_member_level(amount)}')
+    ```
+* 輸出：
+    ![](https://i.imgur.com/VIm3AaK.png =350x)
+---
+### <div class='t3'>ex63：函數-羅馬數字轉int</div>
+* 規格：
+    |<div class='T'><center>名稱|<div class='T'><center>參數|<div class='T'><center>傳回值|<div class='T'><center>功能|
+    |-|-|-|-|
+    |<span class='R'>roman2dec</span>|名稱: <span class='R'>raw</span><br>型別: <span class='HQ'>str</span><br>意義: 羅馬數字<br>預設: 無<br>|<span class='HQ'>int</span>|<ol><li>將<span class='r'>raw</span>轉為int。</li><li>算至100即可。</li><li>[看換算表](https://www.rapidtables.com/convert/number/roman-numerals-converter.html)</li></ol>|
+* 測試程式：
+    ```python=
+    print(f"{roman2dec('III') = }")
+    print(f"{roman2dec('IV') = }")
+    print(f"{roman2dec('VIII') = }")
+    print(f"{roman2dec('IX') = }")
+    print(f"{roman2dec('XLIV') = }")
+    print(f"{roman2dec('LXXVIII') = }")
+    print(f"{roman2dec('XCV') = }")
+    print(f"{roman2dec('C') = }")
+    ```
+* 輸出：
+    ![](https://i.imgur.com/L32vV4i.png =300x)
+* 延伸：dec2roman()，即int轉羅馬數字。
+---
+### <div class='t3'>ex62：函數-缺漏數字</div>
+* 規格：
+    |<div class='T'><center>名稱|<div class='T'><center>參數|<div class='T'><center>傳回值|<div class='T'><center>功能|
+    |-|-|-|-|
+    |<span class='R'>get_missing</span>|名稱: <span class='R'>raw</span><br>型別: <span class='HQ'>tuple</span><br>意義: 原始資料<br>預設: 無<br>|<span class='HQ'>list</span>|<ol><li><span class='r'>raw</span>的元素全為正整數。</li><li>找出<span class='r'>raw</span>缺失的數字。規則為：<ul><li><span class='r'>raw</span>的元素個數假設為n。</li><li>其元素值應為0, 1, 2, ...n-1。</li><li>但實際上可能有缺漏和重複。</li><li>找出缺漏值並組成list，升冪<br>排序。</li></ul></li><li>傳回該list。</li></ol>|
+* 測試程式：
+    ```python=
+    print(f'{get_missing((2, 3, 2, 1, 1)) = }')
+    print(f'{get_missing((1, 5, 0, 8, 8, 4, 5, 1, 8)) = }')
+    print(f'{get_missing((2, 4, 6, 3, 2, 5, 7, 0)) = }')
+    print(f'{get_missing((3, 1, 2, 0)) = }')
+    print(f'{get_missing(()) = }')
+    ```
+* 輸出：
+    ![](https://i.imgur.com/iymymZO.png =600x)
+---
+### <div class='t3'>ex61：函數-最大最小運算</div>
+* 規格：
+    |<div class='T'><center>名稱|<div class='T'><center>參數|<div class='T'><center>傳回值|<div class='T'><center>功能|
+    |-|-|-|-|
+    |<span class='R'>max_min</span>|名稱-1: <span class='R'>num</span><br>型別: <span class='HQ'>int</span><br>意義: 原數字<br>預設: 無<br>&#x2015;&#x2015;&#x2015;&#x2015;&#x2015;&#x2015;<br>名稱-2: <span class='R'>op</span><br>型別: <span class='HQ'>str</span><br>意義: 運算子<br>預設: 無|<span class='HQ'>int或float或None</span>|<ol><li>將<span class='r'>num</span>重新組合為最大值<br>和最小值。</li><li>傳回<span class='r'>最大值 op 最小值</span>。</li><li>有效運算子為：<br>+, -, *, /, //, %</li><li>無效運算子傳回None。</li></ol>|
+* 測試程式：
+    ```python=
+    # 請自行修改測試程式，以練習「關鍵字參數」。
+    ops = ('+', '-', '*', '/', '//', '%', '@')
+    num = 2010838701
+    for op in ops:
+        print(f"max_min({num}, '{op}'): {max_min(num, op)}")
+    ```
+* 輸出：
+    ![](https://i.imgur.com/ZDTMKxE.png =700x)
+---
+### <div class='t3'>ex60：函數-字串排序</div>
+* 規格：
+    |<div class='T'><center>名稱|<div class='T'><center>參數|<div class='T'><center>傳回值|<div class='T'><center>功能|
+    |-|-|-|-|
+    |<span class='R'>sort_str</span>|名稱-1: <span class='R'>raw</span><br>型別: <span class='HQ'>str</span><br>意義: 原始字串<br>預設: 無<br>&#x2015;&#x2015;&#x2015;&#x2015;&#x2015;&#x2015;<br>名稱-2: <span class='R'>reverse</span><br>型別: <span class='HQ'>bool</span><br>意義: 是否降冪<br>預設: False|<span class='HQ'>str</span>|<ol><li>將<span class='r'>raw</span>排序產生一個<br>新字串。</li><li><span class='r'>reverse</span>為True時是<br>升冪排序，即由小<br>到大。</li><li><span class='r'>reverse</span>為False時<br>是降冪排序，即由<br>大到小。</li></li><li>預設升冪。</li><li>傳回該新字串。</li></ol>|
+* 測試程式：
+    ```python=
+    # 請自行修改測試程式，以練習「關鍵字參數」。
+    print(f"{sort_str('qYababcaMAjgOGd', reverse=False) = })")
+    print(f"{sort_str('qYababcaMAjgOGd', reverse=True) = })")
+    print(f"{sort_str('欲窮千里目，更上一層樓', False) = }")
+    print(f"{sort_str('欲窮千里目，更上一層樓', True) = }")
+    print(f"{sort_str('85136417960921') = }")
+    print(f"{sort_str('85136417960921', reverse=True) = }")
+    ```
+* 輸出：
+    ![](https://i.imgur.com/zHOIueF.png =700x)
+---
+### <div class='t3'>ex59：函數-記錄尿量</div>
+* 規格：
+    |<div class='T'><center>名稱|<div class='T'><center>參數|<div class='T'><center>傳回值|<div class='T'><center>功能|
+    |-|-|-|-|
+    |<span class='R'>count_urine</span>|名稱: <span class='R'>urine</span><br>型別: <span class='HQ'>tuple</span><br>意義: 每次尿量<br>預設: 無<br>注意: <span class='r'>傳入的尿量個數<br>　　　並不固定。</span>|<span class='HQ'>tuple</span>|<ol><li>計算並傳回各個<br><span class='r'>urine</span>參數的：<ul><li>總量</li><li>平均數</li></ul></li><li>函數須<span class='r'>可以接受<br>不定數量的參數</span>。</li></ol>|
+* 提示：本題主要目的是練習函數如何<span class='r'>定義不確定數量的參數</span>。
+* 測試程式：
+    ```python=
+    print(f'{count_urine(230, 150, 10, 60) = }')   # 4個參數
+    print(f'{count_urine(135, 200, 240, 50, 60, 0, 75) = }')   # 7個參數
+    print(f'{count_urine(160, 320, 95) = }')   # 3個參數
+    print(f'{count_urine(440) = }')   # 1個參數
+    print(f'{count_urine() = }')   # 沒有參數
+    ```
+* 輸出：
+    ![](https://i.imgur.com/QXeocEp.png =600x)
+---
+### <div class='t3'>ex58：函數-計算所得稅</div>
+* 規格：
+    |<div class='T'><center>名稱|<div class='T'><center>參數|<div class='T'><center>傳回值|<div class='T'><center>功能|
+    |-|-|-|-|
+    |<span class='R'>income_tax</span>|名稱-1: <span class='R'>gross_income</span><br>型別: <span class='HQ'>int</span><br>意義: 所得總額<br>預設: 無<br>&#x2015;&#x2015;&#x2015;&#x2015;&#x2015;&#x2015;<br>名稱-2: <span class='R'>dependents</span><br>型別: <span class='HQ'>int</span><br>意義: 扶養親屬人數<br>預設: 無|<span class='HQ'>int</span>|<ol><li>計算應繳納多少所得稅，步驟如下：<ul><li>基本免稅額132000元，每扶養一名<br>親屬增加88000元。</li><li>所得淨額 = 所得總額 - 免稅額</li><li>所得稅應納稅額級距與累進差額表：</li><table><tr><th><div class='T'><center><div class='T'><center>所得淨額</center></span></center></span></th><th><div class='T'><center>稅率</center></span></th><th><div class='T'><center><div class='T'><center>累進差額</center></span></th></tr><tr><td>0元-540000元</td><td>5%</td><td>0元</td></tr><tr><td>540001元-1210000元</td><td>12%</td><td>37800元</td></tr><tr><td>1210001元-2420000元</td><td>20%</td><td>134600元</td></tr><tr><td>2420001元-4530000元</td><td>30%</td><td>376600元</td></tr><tr><td>4530001元以上</td><td>40%</td><td>829600元</td></tr></table><li>應納稅額 = 所得淨額*稅率 - 累進差額</li><li>應納稅四捨五入(`banker's rounding`)<br>至整數。</li></ul></li><li>傳回應納稅額。</li></ol>|
+* 免稅額、稅率、累進差額等固定資料，請分別用以下7種方式處理。意思是<span class='Mg'>本題有7個版本，最少實作前4版</span>並<span class='R'>討論各版優劣。</span>
+    1. 在函數內將稅率用邏輯判斷(match/case或if/elif/elif/.../else)[寫死(hard coded)](https://zh.wikipedia.org/wiki/%E5%AF%AB%E6%AD%BB)。
+    2. 在函數內用變數設定稅率表。
+    3. 參數傳遞。所以本版除上面列出的2個參數外，須自行增加參數。
+    4. 資料放在主程式，且不以參數傳遞。
+    5. 資料存放在text檔([下載範例text檔](https://drive.google.com/file/d/1sFGDNzqHZb1yunjQ5qkEYTfQlXiZnsxM/view?usp=share_link))。
+    6. 資料存放在csv檔([下載範例csv檔-1](https://drive.google.com/file/d/1eb4thRX4eEt9psdzOuwISEfguZpcA9JI/view?usp=share_link), [下載範例csv檔-2](https://drive.google.com/file/d/1dKTU7GF4zjUrqnkW7LD6dc-jiAmKDqWT/view?usp=share_link))。
+    7. 資料存放在資料庫([下載範例SQLite檔]())。
+* 函數內各個術語命名建議：
+    |<div class='T'><center>術語|<div class='T'><center>命名|
+    |-|-|
+    |免稅額|exemption|
+    |所得淨額|net_income|
+    |稅率|tax_rate|
+    |累進差額|progressive_diff|
+    |應納稅額|tax|
+* 測試程式：
+    ```python=
+    # 請自行修改測試程式，以練習「關鍵字參數」。
+    print(f'{income_tax(750_017, 3) = :,}')       # 5%
+    print(f'{income_tax(1_782_000, 5) = :,}')     # 12%
+    print(f'{income_tax(4_838_001, 2) = :,}')     # 40%
+    print(f'{income_tax(315_500, 4) = :,}')       # 0%
+    print(f'{income_tax(3_521_061, 0) = :,}')     # 30%
+    print(f'{income_tax(2_514_573, 1) = :,}')     # 20%
+    ```
+* 輸出：
+    ![](https://i.imgur.com/VEvY0zH.png =450x)
+---
+### <div class='t3'>ex57：函數-切割序列</div>
+* 規格：
+    |<div class='T'><center>名稱|<div class='T'><center>參數|<div class='T'><center>傳回值|<div class='T'><center>功能|
+    |-|-|-|-|
+    |<span class='R'>cut</span>|名稱-1: <span class='R'>seq</span><br>型別: <span class='HQ'>str, tuple或list</span><br>意義: 待切割的序列<br>預設: 無<br>&#x2015;&#x2015;&#x2015;&#x2015;&#x2015;&#x2015;<br>名稱-2: <span class='R'>size</span><br>型別: <span class='HQ'>int</span><br>意義: 切割後每一塊的<br>　　　大小<br>預設: 1|<span class='HQ'>list</span>|<ol><li>依<span class='r'>size</span>大小切<br>割<span class='r'>seq</span>，重組為<br>一個list。</li><li>傳回該list。</li></ol>|
+* 測試程式：
+    ```python=
+    # 請自行修改測試程式，以練習「關鍵字參數」。
+    print(f"{cut('ChatGPT', 4) = }")
+    print(f"{cut(('流', '星', '蝴', '蝶', '劍'), 2) = }")
+    print(f"{cut(['天', '涯', '明', '月', '刀'], 2) = }")
+    print(f'{cut([9, 8, 7, 6, 5, 4, 3, 2], 3) = }')
+    print(f'{cut((2.1, 3.6, 8.0, 5.3, -0.9)) = }')
+    print(f'{cut("心臟肝臟脾臟肺臟腎臟", 2) = }')
+    ```
+* 輸出：
+    ![](https://i.imgur.com/pjI1NHA.png =800x)
+---
+### <div class='t3'>ex56：函數-元素累加</div>
+* 規格：
+    |<div class='T'><center>名稱|<div class='T'><center>參數|<div class='T'><center>傳回值|<div class='T'><center>功能|
+    |-|-|-|-|
+    |<span class='R'>accum_items</span>|名稱: <span class='R'>nums</span><br>型別: <span class='HQ'>tuple或list</span><br>意義: 整數或浮點<br>　　　數序列<br>預設: 無|<span class='HQ'>list</span>|<ol><li>依據傳入的<span class='r'>nums</span>產生一<br>個新的list，規則為：<ul><li>新list的第1個元素等<br>於<span class='r'>source</span>第1個元素。</li><li>新list的第2個元素等<br>於新list第1個元素加<br><span class='r'>source</span>第2個元素。</li><li>新list的第3個元素等<br>於新list第2個元素加<br><span class='r'>source</span>第3個元素。</li><li>餘類推一直累加。</li></ul></li><li>傳回新list。</li></ol>|
+* 測試程式：
+    ```python=
+    nums = [(2, 4, 6), (5, 7, 9, -3.5), (4, 2.8, 0, -4.6, -7)]
+    for num in nums:
+        print(f'{num = }')
+        print(f'{accum_items(num) = }\n')
+    ```
+* 輸出：
+    ![](https://i.imgur.com/qeDP4pj.png =400x)
+---
+### <div class='t3'>ex55：函數-元素排列</div>
+* 規格：
+    |<div class='T'><center>名稱|<div class='T'><center>參數|<div class='T'><center>傳回值|<div class='T'><center>功能|
+    |-|-|-|-|
+    |<span class='R'>order_me</span>|名稱-1: <span class='R'>source</span><br>型別: <span class='HQ'>tuple或list</span><br>意義: 整數序列<br>　　　(元素都是<br>　　　整數)<br>預設: 無<br>&#x2015;&#x2015;&#x2015;&#x2015;&#x2015;&#x2015;<br>名稱-2: <span class='R'>order</span><br>型別: <span class='HQ'>str</span><br>意義:<br>　`'0'`: 原封不動<br>　`'1'`: 奇先偶後<br>　`'2'`: 偶先奇後<br>　`'3'`: 升冪排序<br>　`'4'`: 降冪排序<br>　`'5'`: 隨機排列<br>　`其他`: 觸發異常<br>預設: `'0'`|<span class='HQ'>tuple或list</span>|<ol><li>將<span class='r'>source</span>中的元素依<br><span class='r'>order</span>的意義重新排列，<br>並產生另一新list。</li><li><span class='r'>order</span>為`'1'`或`'2'`時，<br>新list的奇偶數要分別<br>維持<span class='r'>source</span>的原順序。</li><li>傳回新list。</li></ol>|
+* 測試程式：
+    ```python=
+    # 請自行修改測試程式，以練習「關鍵字參數」。
+    source = (3, -8, 2, 5, 3, 0, -1, 6, -4, 2, -7)
+    try:
+        print(f"{source                = }")   # 原tuple
+        print(f"{order_me(source)      = }")   # 原封不動
+        print(f"{order_me(source, '1') = }")   # 奇先偶後
+        print(f"{order_me(source, '2') = }")   # 偶先奇後
+        print(f"{order_me(source, '3') = }")   # 升冪排序
+        print(f"{order_me(source, '4') = }")   # 降冪排序
+        print(f"{order_me(source, '5') = }")   # 隨機排列
+        print(f"{order_me(source, '6') = }")   # 觸發異常
+    except Exception as e:
+        print(e)
+    ```
+* 輸出：
+    ![](https://i.imgur.com/5sJpne0.png =600x)
+---
+
+### <div class='t3'>ex54：藥盒中的藥丸</div>
+* A, B兩藥盒各放若干不同藥名的藥丸<span class='R'>各一顆</span>。藥名和藥丸數均請自訂。
+* 請列出：
+    1. A藥盒的藥丸數。
+    2. B藥盒的藥丸數。
+    3. 兩盒都有(相同藥名)的藥丸。
+    4. 全部不重複的藥丸。
+    5. A盒有而B盒沒有的藥丸。
+    6. B盒有而A盒沒有的藥丸。
+    7. 扣除兩盒都有的藥丸。
+* 提示：
+    1. 藥盒型別選擇得當，本題即輕而易舉。
+    2. 不必寫成函數。
+* 可能的輸出(藥名及數量請自行修改)：
+    ![](https://i.imgur.com/qoCiUoV.png =550x)
+---
+
+### <div class='t3'>ex53：dict的存取練習</div>
+* 建立一個名叫<span class='r'>patient</span>的dict，自訂5組以上和病人有關的key-value pairs。<span class='r'>key一律用str，</span>value的型別要每個都不一樣，例如str, int, float, bool, list, tuple, set, dict等，但<span class='r'>不要為None</span>。
+* 依順print出該dict：
+    1. 所有的keys(型別：list)。
+    2. 所有的values(型別：list)。
+    3. 所有的key-value pairs(型別：list，元素為key和value構成的tuple)。
+* 搜尋某個key。找到印出其值，找不到則印出`None`。
+    * 提示：使用dict的某個函數即可，非常簡單。
+* 修改某個key的值。
+* 新增一組key-value pair。
+* 刪除某組key-value。
+* 可能的輸出(請自行修改keys/values)：
+  ![](https://i.imgur.com/f8QUHPU.png =750x)
+---
+### <div class='t3'>ex52：函數-重複字元</div>
+* 規格：
+    |<div class='T'><center>名稱|<div class='T'><center>參數|<div class='T'><center>傳回值|<div class='T'><center>功能|
+    |-|-|-|-|
+    |<span class='R'>repeat_me</span>|名稱-1: <span class='R'>source</span><br>型別: <span class='HQ'>str</span><br>意義: 原字串<br>預設: 無<br>&#x2015;&#x2015;&#x2015;&#x2015;&#x2015;&#x2015;<br>名稱-2: <span class='R'>counts</span><br>型別: <span class='HQ'>tuple或list</span><br>意義: 新字串每個<br>　　　字元的次數<br>　　　表<br>預設: None|<span class='HQ'>str</span>|<ol><li><span class='r'>source</span>的字元數如不等於<br><span class='r'>counts</span>的元素數，要觸發<br>異常。</li><li><span class='r'>source</span>的每個字元一一<br>對應到次數表<span class='r'>counts</span>的<br>每個元素(<span class='Mg'>count</span>)。</li><li>從<span class='r'>source</span>逐字元(<span class='Mg'>char</span>)依<br><span class='Mg'>count</span>的值產生一新字串。</li><li>新字串組合規則如下：</li><ul><li><span class='Mg'>count</span>=0: <span class='Mg'>char</span>不納入。</li><li><span class='Mg'>count</span>=1: <span class='Mg'>char</span>僅現1次。</li><li><span class='Mg'>count</span>=2: <span class='Mg'>char</span>連續2次<br>(餘類推)。</li><li><span class='Mg'>count</span>為負: 觸發異常。</li></ul><li>如不傳入<span class='r'>counts</span>，預設其<br>每個元素都為1，意即新字<br>串內容和<span class='r'>source</span>相同。</li><li>傳回該新字串。</li></ol>|
+* 測試程式：
+    ```python=
+    try:
+        quote = '我code故我在'; occurrences = (1, 2, 3, 4, 4, 3, 2, 1)
+        print(f"{repeat_me(quote, counts=occurrences) = }")
+        source = '我在故我code'; times = [2, 0, 2, 1, 0, 7, 0, 5]
+        print(f"{repeat_me(counts=times, source=source) = }")
+        print(f"{repeat_me(pl := 'Python', counts=[1 for _ in range(len(pl))]) = }")
+        print(f"{repeat_me(source='窈窕淑女，君子好逑。') = }")   # 沒有傳入counts。
+        print(f"{repeat_me('Hello, World.', (0, 1, 2, 4, 0, 3)) = }")
+        print(f"{repeat_me('van Rossum', [0, 1, 2, 3, 4, 5, 6, 7, -8, 9]) = }")
+    except Exception as e:
+        print(e)
+    ```
+* 輸出：
+    ![](https://i.imgur.com/nHB2eix.png =700x)
+---
+### <div class='t3'>ex51：奇加偶減</div>
+* 規格：
+    |<div class='T'><center>名稱|<div class='T'><center>參數|<div class='T'><center>傳回值|<div class='T'><center>功能|
+    |-|-|-|-|
+    |<span class='R'>sum_sub</span>|名稱: <span class='R'>int_container</span><br>型別: <span class='HQ'>list或tuple</span><br>意義: 待計算的容器<br>預設: []|<span class='HQ'>int</span>|<ol><li><span class='r'>int_container</span>裝的全<br>是整數(有正有負)。</li><li>將<span class='r'>int_container</span>內的<br>所有奇數相加，再減<br>去所有偶數。</li><li>傳回加減後的結果。</li></ol>|
+* 測試程式：
+    ```python=
+    print(f'{sum_sub([-1, 2, 3, 4]) = }')
+    print(f'{sum_sub((1, 2, -3, 4, 5)) = }')
+    print(f'{sum_sub([1, 3, -5]) = }')
+    print(f'{sum_sub((2, -4, -6, 0)) = }')
+    print(f'{sum_sub([99, -10, 10]) = }')
+    print(f'{sum_sub() = }')   # 採用參數的預設值。
+    ```
+* 輸出：
+    ![](https://i.imgur.com/ete6J5w.png =300x)
+---
+### <div class='t3'>ex50：函數-質數因數</div>
+* 規格：
+    |<div class='T'><center>名稱|<div class='T'><center>參數|<div class='T'><center>傳回值|<div class='T'><center>功能|
+    |-|-|-|-|
+    |<span class='R'>prime_factors</span>|名稱: <span class='R'>number</span><br>型別: <span class='HQ'>int</span><br>意義: 待檢查的整數<br>預設: 無|<span class='HQ'>tuple</span>|<ol><li>找出<span class='r'>number</span>的所有質數<br>因數。</li><li>例如12有1, 2, 3, 4,<br>6, 12等因數，其中<br><span class='g'>2</span>和<span class='g'>3</span>是質數，也就是<br>我們要的質數因數。</li><li>將這些質數因數包成<br>tuple傳回。</li></ol>|
+* 提示：可重用以前寫過的is_prime()函數。
+* 測試程式：
+    ```python=
+    print(f'{prime_factors(-10) = }')
+    print(f'{prime_factors(1) = }')
+    print(f'{prime_factors(12) = }')
+    print(f'{prime_factors(109) = }')
+    print(f'{prime_factors(1128) = }')
+    print(f'{prime_factors(2023) = }')
+    print(f'{prime_factors(53751) = }')
+    ```
+* 輸出：
+    ![](https://i.imgur.com/PnM2sG9.png =500x)
+---
+### <div class='t3'>ex49：函數-排列順序</div>
+* 規格：
+    |<div class='T'><center>名稱|<div class='T'><center>參數|<div class='T'><center>傳回值|<div class='T'><center>功能|
+    |-|-|-|-|
+    |<span class='R'>is_in_order</span>|名稱-1: <span class='R'>source</span><br>型別: <span class='HQ'>str</span><br>意義: 比對用字串<br>預設: 無<br>&#x2015;&#x2015;&#x2015;&#x2015;&#x2015;&#x2015;<br>名稱-2: <span class='R'>sequence</span><br>型別: <span class='HQ'>str</span><br>意義: 順序字串<br>預設: 無|<span class='HQ'>bool</span>|<ol><li>判斷<span class='r'>sequence</span>是否</br>依<span class='r'>source</span>的順序<br>排列。</li><li><span class='r'>sequence</span>可以跳過<br><span class='r'>source</span>一些字元，<br>不一定要挨個排列，<br>但順序得正確。</li></ol>|
+<!-- * 提示：可以用...。 -->
+* 測試程式：
+    ```python=
+    # 請自行修改測試程式，以練習「關鍵字參數」。
+    print(f"{is_in_order('0123456789', '245768') = }")
+    print(f"{is_in_order('0123456789', '245789') = }")
+    print(f"{is_in_order('abcdefghijklmnopqrstuvwxyz', 'rstuvvwxyz') = }")
+    print(f"{is_in_order('abcdefghijklmnopqrstuvwxyz', 'cdghijlptw') = }")
+    print(f"{is_in_order('甲乙丙丁戊己庚辛壬癸', '戊己寅辛') = }")
+    print(f"{is_in_order('甲乙丙丁戊己庚辛壬癸', '甲丁戊壬') = }")
+    print(f"{is_in_order('鼠牛虎兔龍蛇馬羊猴雞狗豬', '') = }")
+    print(f"{is_in_order('鼠牛虎兔龍蛇馬羊猴雞狗豬', '牛龍羊雞豬') = }")
+    print(f"{is_in_order('ABΓΔEZηΘIKΛMNΞOπPΣτΥΦXΨΩ', 'OπτPΣΥΦΨΩ') = }")
+    print(f"{is_in_order('ABΓΔEZηΘIKΛMNΞOπPΣτΥΦXΨΩ', 'Θ') = }")
+    ```
+* 輸出：
+    ![](https://i.imgur.com/otPZOly.png =600x)
+---
+### <div class='t3'>ex48：函數-判斷是否為子字串</div>
+* 規格：
+    |<div class='T'><center>名稱|<div class='T'><center>參數|<div class='T'><center>傳回值|<div class='T'><center>功能|
+    |-|-|-|-|
+    |<span class='R'>is_sub</span>|名稱-1: <span class='R'>long_str</span><br>型別: <span class='HQ'>str</span><br>意義: 待比對的字串<br>預設: 無<br>&#x2015;&#x2015;&#x2015;&#x2015;&#x2015;&#x2015;<br>名稱-2: <span class='R'>short_str</span><br>型別: <span class='HQ'>str</span><br>意義: 要比對的字串<br>預設: 無|<span class='HQ'>bool</span>|判斷<span class='r'>short_str</span></br>是否為<span class='r'>long_str</span><br>的子字串。|
+* 提示：本題太過簡單，測試程式請自行撰寫。
+---
+### <div class='t3'>ex47：函數-判斷是否為迴文</div>
+* 規格：
+    |<div class='T'><center>名稱|<div class='T'><center>參數|<div class='T'><center>傳回值|<div class='T'><center>功能|
+    |-|-|-|-|
+    |<span class='R'>is_palindrome</span>|名稱: <span class='R'>number</span><br>型別: <span class='HQ'>int</span><br>意義: 待檢查的整數<br>預設: 無|<span class='HQ'>bool</span>|<ol><li>判斷傳入的參數<span class='r'>number</span></br>是否為迴文數字。</li><li>「迴文」(palindrome)<br>是從頭看和從尾看都<br>一樣的文字。</li></ol>|
+<!-- * 提示：可以用...。 -->
+* 測試程式：
+    ```python=
+    print(f'{is_palindrome(13231) = }')
+    print(f'{is_palindrome(12345678) = }')
+    print(f'{is_palindrome(508805) = }')
+    print(f'{is_palindrome(6666) = }')
+    print(f'{is_palindrome(10987079801) = }')
+    print(f'{is_palindrome(0) = }')
+    print(f'{is_palindrome(10) = }')
+    ```
+* 輸出：
+    ![](https://i.imgur.com/myUzw6A.png =400x)
+---
+### <div class='t3'>ex46：函數-找出某字元連續出現最多的次數</div>
+* 規格：
+    |<div class='T'><center>名稱|<div class='T'><center>參數|<div class='T'><center>傳回值|<div class='T'><center>功能|
+    |-|-|-|-|
+    |<span class='R'>find_max_occurrence</span>|名稱-1: <span class='R'>source</span><br>型別: <span class='HQ'>str</span><br>意義: 待檢查的字串<br>預設: 無<br>&#x2015;&#x2015;&#x2015;&#x2015;&#x2015;&#x2015;<br>名稱-2: <span class='R'>target</span><br>型別: <span class='HQ'>str</span><br>意義: 要搜尋的子字串<br>預設: 無|<span class='HQ'>int</span>|<ol><li>從<span class='r'>source</span>中搜尋連續出現<br>的<span class='r'>target</span>。</li><li>如有多段連續的<span class='r'>target</span>，<br>傳回最長那段的長度。</li><li>source中如無target，<br>則傳回0。</li></ol>|
+<!-- * 提示：可以用...。 -->
+* 測試程式：
+    ```python=
+    source = '01100A2222012A000122m'
+    print(f"{find_max_occurrence(source=source, target='0') = }")
+    print(f"{find_max_occurrence(source=source, target='1') = }")
+    print(f"{find_max_occurrence(source=source, target='2') = }")
+    print(f"{find_max_occurrence(source=source, target='m') = }")
+    print(f"{find_max_occurrence(source=source, target='4') = }")
+    print(f"{find_max_occurrence(source=source, target='A') = }")
+    print(f"{find_max_occurrence(source=source, target='p') = }")
+    ```
+* 輸出：
+    ![](https://i.imgur.com/NXLOkjg.png =500x)
+---
+### <div class='t3'>ex45：檔案讀寫練習--csv檔</div>
+* 規格：
+    |<div class='T'><center>名稱|<div class='T'><center>參數|<div class='T'><center>傳回值|<div class='T'><center>功能|
+    |-|-|-|-|
+    |<span class='R'>read_tree</span>|名稱: <span class='R'>csv_file</span><br>型別: <span class='HQ'>str</span><br>意義: csv格式的檔案<br>　　　字串(含路徑)<br>預設: 無|<span class='HQ'>dict</span>|<ol><li>讀取<span class='r'>csv_file</span>。</li><li>將內容轉為dict。</li><li>dict的格式如輸出圖。</li><li>傳回該dict。</li></ol>|
+* [下載範例csv檔案](https://drive.google.com/file/d/1Ey2U7B1fM8Z8JjWzovBTAc4W44gZi6u8/view?usp=share_link)。
+* 提示：用pandas做很簡單，自刻較繁但可練功。
+* 測試程式：
+    ```python=
+    trees = read_tree('./tree_info.csv')
+    print(trees)
+    ```
+* 輸出：
+    ![](https://i.imgur.com/0DZBqUO.png =600x)
+---
+### <div class='t3'>ex44：檔案讀寫練習--純文字檔</div>
+* 規格：
+    |<div class='T'><center>名稱|<div class='T'><center>參數|<div class='T'><center>傳回值|<div class='T'><center>功能|
+    |-|-|-|-|
+    |<span class='R'>get_lines</span>|名稱-1: <span class='R'>in_file</span><br>型別: <span class='HQ'>str</span><br>意義: 純文字檔案<br>　　　字串(含路徑)<br>預設: 無<br>&#x2015;&#x2015;&#x2015;&#x2015;&#x2015;&#x2015;<br>名稱-2: <span class='R'>out_file</span><br>型別: <span class='HQ'>str</span><br>意義: 純文字檔案<br>　　　字串(含路徑)<br>預設: 無<br>&#x2015;&#x2015;&#x2015;&#x2015;&#x2015;&#x2015;<br>名稱-3: <span class='R'>start</span><br>型別: <span class='HQ'>int</span><br>意義: 開始行號<br>預設: 1<br>&#x2015;&#x2015;&#x2015;&#x2015;&#x2015;&#x2015;<br>名稱-4: <span class='R'>end</span><br>型別: <span class='HQ'>int</span><br>意義: 結束行號(含)<br>預設: 10|<span class='HQ'>int</span>|<ol><li>以文字檔方式開啟<span class='r'>in_file</span>。</li><li>讀取從第<span class='r'>start</span>行到第<span class='r'>end</span>行<br>(含)內容。</li><li>start和end都從1起算。</li><li>將該段內容寫到<span class='r'>out_file</span>。</li><li>傳回寫入片段的字元數。</li></ol>|
+* [下載範例txt檔案](https://drive.google.com/file/d/1AUV2FRhEUBi2Fz4lRZPNcDlPIfGruYhO/view?usp=share_link)。
+* 測試程式：
+    ```python=
+    print(f"{get_lines('./quotes_raw.txt', './quotes_out1.txt', 45, 44) = }")
+    print(f"{get_lines('./quotes_raw.txt', './quotes_out2.txt', 89, 89) = }")
+    print(f"{get_lines('./quotes_raw.txt', './quotes_out3.txt', 257, 258) = }")
+    print(f"{get_lines('./quotes_raw.txt', './quotes_out4.txt', 256, 309) = }")
+    print(f"{get_lines('./quotes_raw.txt', './quotes_out5.txt', 241, 633) = }")
+    print(f"{get_lines('./quotes_raw.txt', './quotes_out6.txt', 600, 700) = }")
+    ```
+* 輸出：
+    ![](https://i.imgur.com/kGuaoLR.png =600x)
+---
+### <div class='t3'>ex43：函數--拉丁豬</div>
+* 拉丁豬(Pig Latin)是一種英文單字文字遊戲。規則大致如下：
+    * 單字的字首如果是母音(a, e, i, o, u)，在該字的字尾加上`'way'`。
+    * 字首如不是母音，就把該字的字首移到字尾，再加`'ay'`。
+* 本函數基本上沿用以上規則，不過為了練習函數的參數預設值和關鍵字參數功能，略加變化。
+* 規格：
+    |<div class='T'><center>名稱|<div class='T'><center>參數|<div class='T'><center>傳回值|<div class='T'><center>功能|
+    |-|-|-|-|
+    |<span class='R'>pig_latin</span>|名稱-1: <span class='R'>source_str</span><br>型別: <span class='HQ'>str</span><br>意義: 傳入的單字<br>&#x2015;&#x2015;&#x2015;&#x2015;&#x2015;&#x2015;<br>名稱-2: <span class='R'>chars</span><br>型別: <span class='HQ'>str</span><br>意義: 比對字串<br>預設: `'aeiou'`<br>&#x2015;&#x2015;&#x2015;&#x2015;&#x2015;&#x2015;<br>名稱-3: <span class='R'>tail1</span><br>型別: <span class='HQ'>str</span><br>意義: 比對到時加<br>　　　上的字尾<br>預設: `'way'` <br>&#x2015;&#x2015;&#x2015;&#x2015;&#x2015;&#x2015;<br>名稱-4: <span class='R'>tail2</span><br>型別: <span class='HQ'>str</span><br>意義: 比對不到時<br>　　　加上的字尾<br>預設: `'ay'` |<span class='HQ'>str</span>|<ol><li>拿<span class='r'>source_str</span>的首字元<br>(<span class='DG f120'>`A`</span>)來比對<span class='r'>chars</span>。</li><li><span class='DG f120'>`A`</span>如在<span class='r'>chars</span>之內，要<br>在<span class='r'>source_str</span>的字尾<br>加上<span class='r'>tail1</span>。</li><li><span class='DG f120'>`A`</span>如不在<span class='r'>chars</span>之內，<br>則把<span class='DG f120'>`A`</span>移到<span class='r'>source_str</span><br>字尾，然後加上<span class='r'>tail2</span>。</li><li>注意除<span class='r'>source_str</span>外，<br>其餘參數都有預設值。</li></ol>|
+* 請練習使用參數預設值以及關鍵字參數。
+* 提示：會用到字串的索引和切片功能。[也許可參考在下這篇小文，原文冗長，建議先看「精華表」。](https://hackmd.io/@alexhtwen/SyL7bhkhX#condensed_table)
+* 測試程式：
+    ```python=
+    source_str = 'code'
+    print(f'{source_str = }')
+    print(f'{pig_latin(source_str, "man", "Snap", "Wendy") = }')
+    print()
+    source_str = 'eat'
+    print(f'{source_str = }')
+    print(f'{pig_latin(source_str, tail2="fish", tail1="meat") = }')
+    print()
+    source_str = 'python'
+    print(f'{source_str = }')
+    print(f'{pig_latin(source_str, chars="pointer") = }')
+    print()
+    source_str = 'computer'
+    print(f'{source_str = }')
+    print(f'{pig_latin(source_str=source_str) = }')
+    print()
+    ```
+* 輸出：
+    ![](https://i.imgur.com/3CKpTGN.png =600x)
+---
+### <div class='t3'>ex42：函數--擷取頭尾元素</div>
+* 規格：
+    |<div class='T'><center>名稱|<div class='T'><center>參數|<div class='T'><center>傳回值|<div class='T'><center>功能|
+    |-|-|-|-|
+    |<span class='R'>first_last</span>|名稱-1: <span class='R'>source</span><br>型別:<span class='HQ'><center>str<br>list<br>tuple</center></span>意義: 待分析的序列<br>　　　物件<br>&#x2015;&#x2015;&#x2015;&#x2015;&#x2015;&#x2015;<br>名稱-2: <span class='R'>count</span><br>型別: <span class='HQ'>int</span><br>意義: 擷取的元素數|<span class='HQ'>str<br>list<br>tuple</span>|<ol><li>擷取<span class='r'>source</span>前後各<br><span class='r'>count</span>個元素，組成<br>另一新序列物件。</li><li>傳回該新物件。</li><li>傳回物件的型別必須<br>和傳入參數相同。<li>例如傳入參數是str，<br>傳回值也須為str，<br>傳入參數為tuple，<br>也須傳回tuple。<br></li></ol>|
+* 提示：請考慮使用slicing切片功能。[也許可參考在下這篇小文，原文冗長，建議先看「精華表」。](https://hackmd.io/@alexhtwen/SyL7bhkhX#condensed_table)
+* 測試程式：
+    ```python=
+    source = "In the end, it's not the years in your life that count. It's the life in your years."
+    print(f'{source = }')  # source是str，first_last()的傳回值也要是str。
+    print(f'{first_last(source, 20) = }')
+    print()
+    source = ['天地', '玄黃', '宇宙', '洪荒', '日月', '盈昃', '辰宿', '列張']
+    print(f'{source = }')  # source是list，first_last()的傳回值也要是list。
+    print(f'{first_last(source, 5) = }')
+    print()
+    source = ('Amy', 'Ben', 'Coy', 'Dow', 'Ell', 'Fox', 'Gay', 'Huy', 'Ivy', 'Jay', 'Kim', 'Lee', 'Mat', 'Noe', 'Obe', 'Pat', 'Qis', 'Rex', 'Sim', 'Tim', 'Ugh', 'Van', 'Wes', 'Xeo', 'Yee', 'Zev')
+    print(f'{source = }')  # source是tuple，first_last()的傳回值也要是tuple。
+    print(f'{first_last(source, 6) = }')
+    print()
+    ```
+* 輸出：
+    ![](https://i.imgur.com/jyBmdU0.png =950x)
+---
+### <div class='t3'>ex41：函數--最長和最短對話</div>
+* 規格：
+    |<div class='T'><center>名稱|<div class='T'><center>參數|<div class='T'><center>傳回值|<div class='T'><center>功能|
+    |-|-|-|-|
+    |<span class='R'>get_quote_info</span>|名稱: <span class='R'>chars</span><br>型別: <span class='HQ'>str</span><br>意義: 待分析<br>　　　的字串|<span class='HQ'>dict</span>|<ol><li>找出<span class='r'>chars</span>中最長以及最短對話<br>的資訊。<li>`「」`內的字(不含`「」`本身)<br>就是對話。</li><li>傳回一個dict，其key-value <br>pairs依次應為：<br><table><tr><th>key</th><th>value</th></tr><tr><td>`'shortest_id'`</td><td>最短對話編號</td></tr><tr><td>`'shortest_len'`</td><td>最短對話長度</td></tr><tr><td>`'shortest_text'`</td><td>最短對話內容</td></tr><tr><td>`'longest_id'`</td><td>最長對話編號</td></tr><tr><td>`'longest_len'`</td><td>最長對話長度</td></tr><tr><td>`'longest_text'`</td><td>最長對話內容</td></tr></table></li></ol>|
+* 提示：
+    * 可利用一個旗標型的變數(flag)來判斷目前字元「<span class='p'>是否為對話</span>」。
+    * 本題看似有點難，其實基本上和ex-23相同，只是在ex-23基礎上再添些變化而已，絕對沒有表面看來那麼複雜。
+* 建議：
+    * 如果無法一開始就組合成規定的dict，可以從傳回單一值開始，逐步「蠶食」，最後必能攻克。
+* 測試程式：
+    ```python=
+    chars = '寶玉忙笑道：「好妹妹，你拿出來我瞧瞧。」寶琴笑道：「在南京收著呢，此時那裡去取來？」寶玉聽了，大失所望，便說：「沒福得見這世面。」黛玉笑拉寶琴道：「你別哄我們。我知道你這一來，你的這些東西未必放在家裡，自然都是要帶了來的，這會子又扯謊說沒帶來。他們雖信，我是不信的。」寶琴便紅了臉，低頭微笑不語。寶釵笑道：「偏這個顰兒慣說這些白話，把你就伶俐的。」黛玉道：「若帶了來，就給我們見識見識也罷了。」'
+    print()
+    print(f'{chars = }')
+    quote_info = get_quote_info(chars)
+    print(f'{quote_info = }')
+
+    chars = '孔明曰：「將軍莫非因吾等不曾遠接，故而不樂？」回顧左右曰：「汝等緣何不先報？」雲長曰：「關某特來請死。」孔明曰：「莫非曹操不曾容道上來？」雲長曰：「是從那裏來。關某無能，因此被他走脫。」孔明曰：「拏得甚將士來？」雲長曰：「皆不曾拏。」孔明曰：「此是雲長想曹操昔日之恩，故意放了。但既有軍令狀在此，不得不按軍法。」遂叱武士推出斬之。'
+    print()
+    print(f'{chars = }')
+    quote_info = get_quote_info(chars)
+    print(f'{quote_info = }')
+    ```
+* 輸出：
+    ![](https://i.imgur.com/Ydr3zkH.png =900x)
+---
+### <div class='t3'>ex40：函數--累加</div>
+* 規格：
+    |<div class='T'><center>名稱|<div class='T'><center>參數|<div class='T'><center>傳回值|<div class='T'><center>功能|
+    |-|-|-|-|
+    |<span class='R'>accumulate</span>|名稱-1: <span class='R'>cap</span><br>型別: <span class='HQ'>int</span><br>意義: 累加的上限<br>　　　(不含)<br>&#x2015;&#x2015;&#x2015;&#x2015;&#x2015;&#x2015;<br>名稱-2: <span class='R'>step</span><br>型別: <span class='HQ'>int</span><br>範圍: >= 1<br>意義: 步幅|<span class='HQ'>int</span>|<ol><li>從1起以步幅<span class='r'>step</span>累加，<br>一直到<span class='r'>cap</span>之前。<span class='r'>cap</span><br>本身不包括在內。</li><li>範例：<br><span class='r'>cap</span>=10，<span class='r'>step</span>=3，<br>則1+4+7=12 (不含10)</li><li>傳回累加後的結果。</li></ol>|
+* 測試程式：
+    ```python=
+    print()
+    print(f'{accumulate(3, 1) = }')
+    print(f'{accumulate(5, 5) = }')
+    print(f'{accumulate(10, 2) = }')
+    print(f'{accumulate(10, 3) = }')
+    print(f'{accumulate(50, 9) = }')
+    print(f'{accumulate(1024, 66) = }')
+    print()
+    ```
+* 輸出：
+    ![](https://i.imgur.com/pIoiAIi.png =450x)
+---
+### <div class='t3'>ex39：函數--合併兩個dicts</div>
+* 規格：
+    |<div class='T'><center>名稱|<div class='T'><center>參數|<div class='T'><center>傳回值|<div class='T'><center>功能|
+    |-|-|-|-|
+    |<span class='R'>merge_dicts</span>|名稱-1: <span class='R'>dict1</span><br>型別: <span class='HQ'>dict</span><br>意義: 被合併的dict<br>&#x2015;&#x2015;&#x2015;&#x2015;&#x2015;&#x2015;<br>名稱-2: <span class='R'>dict2</span><br>型別: <span class='HQ'>list</span><br>意義: 併dict1的dict|<span class='HQ'>None</span>|<ol><li>將dict2併到dict1。</li><li>如兩者有相同的key，<br>以dict2的為準。</li><li>合併完後改變的是dict1，<br>dict2則內容不變。</li><li>注意：本函數的傳回值<br>是`None`。</li></ol>|
+* 提示：dict的合併(merging)有多種方式。詳細用法[可參考這篇](https://www.geeksforgeeks.org/python-merging-two-dictionaries/)。
+* 測試程式：
+    ```python=
+    print()
+    print('----- key部分重疊 -----')
+    dict1 = {'name': 'Alex', 'age': 24}; dict2 = {'id': 1, 'name': 'Jade'}
+    print(f'{dict1 = }\n{dict2 = }')
+    merge_dicts(dict1, dict2)
+    print('執行merge_dicts(dict1, dict2)...')
+    print(f'{dict1 = }\n{dict2 = }\n')
+
+    print('----- key完全不重疊 -----')
+    dict1 = {'name': 'Alex', 'age': 24}; dict2 = {'id': 1, 'bmi': 22.8}
+    print(f'{dict1 = }\n{dict2 = }')
+    merge_dicts(dict1, dict2)
+    print('執行merge_dicts(dict1, dict2)...')
+    print(f'{dict1 = }\n{dict2 = }\n')
+
+    print('----- key完全重疊 -----')
+    dict1 = {'name': 'Alex', 'age': 24}; dict2 = {'name': 'Jade', 'age': 18}
+    print(f'{dict1 = }\n{dict2 = }')
+    merge_dicts(dict1, dict2)
+    print('執行merge_dicts(dict1, dict2)...')
+    print(f'{dict1 = }\n{dict2 = }\n')
+
+    print('----- dict1包含dict2 -----')
+    dict1 = {'name': 'Alex', 'age': 24}; dict2 = {'name': 'Jade'}
+    print(f'{dict1 = }\n{dict2 = }')
+    merge_dicts(dict1, dict2)
+    print('執行merge_dicts(dict1, dict2)...')
+    print(f'{dict1 = }\n{dict2 = }\n')
+
+    print('----- dict2包含dict1 -----')
+    dict1 = {'name': 'Alex', 'age': 24}; dict2 = {'id': 1, 'name': 'Jade', 'age': 18}
+    print(f'{dict1 = }\n{dict2 = }')
+    merge_dicts(dict1, dict2)
+    print('執行merge_dicts(dict1, dict2)...')
+    print(f'{dict1 = }\n{dict2 = }')
+    print()
+    ```
+* 輸出：
+    ![](https://i.imgur.com/XKSYiWz.png =500x)
+    ![](https://i.imgur.com/cnbRakB.png =500x)
+---
+### <div class='t3'>ex38：函數--可掛號日期</div>
+* 規格：
+    |<div class='T'><center>名稱|<div class='T'><center>參數|<div class='T'><center>傳回值|<div class='T'><center>功能|
+    |-|-|-|-|
+    |<span class='R'>get_available_days</span>|名稱-1: <span class='R'>all_days</span><br>型別: <span class='HQ'>list</span><br>意義: 一段時間內的<br>　　　所有日期<br>&#x2015;&#x2015;&#x2015;&#x2015;&#x2015;&#x2015;<br>名稱-2: <span class='R'>closed_days</span><br>型別: <span class='HQ'>list</span><br>意義: 醫院休假日<br>&#x2015;&#x2015;&#x2015;&#x2015;&#x2015;&#x2015;<br>名稱-3: <span class='R'>on_duty_days</span><br>型別: <span class='HQ'>list</span><br>意義: 醫師看診日|<span class='HQ'>list</span>|<ol><li>傳回某醫院骨科某<br>醫師的可預約掛號<br>日期構成的list。</li><li>可預約日期的計算<br>方法為：<ul><li>以<span class='r'>all_days</span>為準，<br>扣除<span class='r'>closed_days</span>。</li><li>再抓出該醫師的<br><span class='r'>on_duty_days</span>。</li><li>傳回的list不能包<br>含原<span class='r'>all_days</span>沒有<br>的元素。所以<span class='Mg'>並非<br>醫師的所有看診日<br>都必然納入，超過<br><span class='r'>on_duty_days</span>範圍<br>的日期不算。</span></li></ul><li>list要按日期排序。</li></ol>|
+* 提示：可考慮利用[set operations](https://realpython.com/python-sets/)。
+* 測試程式：
+    ```python=
+    all_days = ['2022-12-05', '2022-12-01', '2022-12-03', '2022-12-08', '2022-12-04',
+                '2022-12-10', '2022-12-06', '2022-12-07', '2022-12-02', '2022-12-09']
+    closed_days = ['2022-12-10', '2022-12-03']
+    on_duty_days = ['2022-12-09', '2022-12-02', '2022-12-05', '2022-12-16',
+                    '2022-12-04', '2022-12-12', '2022-12-14', '2022-12-03',
+                    '2022-12-07']   # 有些看診日超過all_days範圍。
+
+    print()
+    print(f'{all_days = }')       # 一段時間內的所有日期
+    print()
+    print(f'{closed_days = }')    # 醫院休假日
+    print()
+    print(f'{on_duty_days = }')   # 醫師看診日
+    print()
+    print('-----------------')
+    # 注意：超過all_days範圍的醫師看診日期不要納入傳回的list。
+    print(f'{get_available_days(all_days, closed_days, on_duty_days) = }')
+    print()
+    ```
+* 輸出：
+    ![](https://i.imgur.com/rmwxOBq.png =750x)
+---
+### <div class='t3'>ex37：函數--對稱字串</div>
+* 規格：
+    |<div class='T'><center>名稱|<div class='T'><center>參數|<div class='T'><center>傳回值|<div class='T'><center>功能|
+    |-|-|-|-|
+    |<span class='R'>symmetrize</span>|名稱-1: <span class='R'>raw_str</span><br>型別: <span class='HQ'>str</span><br>意義: 原字串<br>&#x2015;&#x2015;&#x2015;&#x2015;&#x2015;&#x2015;<br>名稱-2: <span class='R'>gem</span><br>型別: <span class='HQ'>str</span><br>意義: 對稱字串中<br>　　　間的「寶石」|<span class='HQ'>str</span>|<ol><li>傳回一組對稱字串，前面<br>是原<span class='r'>raw_str</span>，後面是其<br>逆字串。</li><li>正逆字串中間加顆寶石。</li><li>寶石為任何長度字串。</li></ol>|
+* 提示：請參考在下[這篇很久時寫的文章]()。
+* 測試程式：
+    ```python=
+    print()
+    raw_str = '芳梅喜淡雅，永日伴清茶'
+    print(f'{raw_str = }')
+    print(f"{symmetrize(raw_str, '💖💖') = }")
+
+    print()
+    raw_str = '遙望四邊雲接水，碧峰千點數鷗輕'
+    print(f'{raw_str = }')
+    print(f"{symmetrize(raw_str, '💎') = }")
+
+    print()
+    raw_str = ' +-.desserts.-+ '
+    print(f'{raw_str = }')
+    print(f"{symmetrize(raw_str, '🎀🎖🎀') = }")
+    ```
+* 輸出：
+    ![](https://i.imgur.com/IqJnFfk.png =950x)
+---
+### <div class='t3'>ex36：函數--密碼產生器</div>
+* 規格：
+    |<div class='T'><center>名稱|<div class='T'><center>參數|<div class='T'><center>傳回值|<div class='T'><center>功能|
+    |-|-|-|-|
+    |<span class='R'>generate_pwd</span>|名稱-1: <span class='R'>source</span><br>型別: <span class='HQ'>str</span><br>意義: 組成密碼的<br>　　　所有字元<br>&#x2015;&#x2015;&#x2015;&#x2015;&#x2015;&#x2015;<br>名稱-2: <span class='R'>length</span><br>型別: <span class='HQ'>int</span><br>意義: 密碼長度<br>&#x2015;&#x2015;&#x2015;&#x2015;&#x2015;&#x2015;<br>名稱-3: <span class='R'>amount</span><br>型別: <span class='HQ'>int</span><br>意義: 密碼個數|<span class='HQ'>list</span>|<ol><li>從<span class='r'>source</span>中隨機取出<span class='r'>length</span><br>個字元，組成密碼字串。</li><li>密碼中的字元可以重複。</li><li>總共要產生<span class='r'>amount</span>個密碼。</li><li>將所有密碼包在tuple中。</li><li>傳回該tuple。</li></ol>|
+* 提示：有可能用得到字串的join()函數。
+* 測試程式：
+    ```python=
+    import string
+
+    print()
+    pool = string.ascii_letters + string.digits
+    print(f'{pool = }')
+    print(f'{generate_pwd(pool, 6, 5) = }')
+
+    print()
+    pool = string.ascii_uppercase + string.hexdigits
+    print(f'{pool = }')
+    print(f'{generate_pwd(pool, 12, 2) = }')
+
+    print()
+    pool = string.ascii_lowercase + string.punctuation
+    print(f'{pool = }')
+    print(f'{generate_pwd(pool, 8, 3) = }')
+    ```
+* 輸出：
+    ![](https://i.imgur.com/o7v4LYL.png =700x)
+---
+### <div class='t3'>ex35：函數--字元穿插</div>
+* 規格：
+    |<div class='T'><center>名稱|<div class='T'><center>參數|<div class='T'><center>傳回值|<div class='T'><center>功能|
+    |-|-|-|-|
+    |<span class='R'>intersperse</span>|名稱-1: <span class='R'>str1</span><br>型別: <span class='HQ'>str</span><br>&#x2015;&#x2015;&#x2015;&#x2015;&#x2015;&#x2015;<br>名稱-2: <span class='R'>str2</span><br>型別: <span class='HQ'>str</span><br>&#x2015;&#x2015;&#x2015;&#x2015;&#x2015;&#x2015;<br><span class='R'>str1</span>和<span class='R'>str2</span>兩<br>者長度相同。|<span class='HQ'>str</span>|<ol><li><span class='r'>str1</span>和<span class='r'>str2</span>每一字元交替<br>連接，即：<br>st1第1字元 + str2第1字元 +<br>st1第2字元 + str2第2字元 +<br>...，依此方式組成新字串。</li><li>傳回該新字串。</li></ol>|
+* 提示：有可能用得到字串的join()函數。
+* 測試程式：
+    ```python=
+    print()
+    str1 = 'ABCDE'
+    str2 = 'abcde'
+    print(f'{str1 = }     {str2 = }')
+    print(f'{intersperse(str1, str2) = }')
+
+    print()
+    str1 = '人生在世不稱意'
+    str2 = '明朝散髮弄扁舟'
+    print(f'{str1 = }     {str2 = }')
+    print(f'{intersperse(str1, str2) = }')
+
+    print()
+    str1 = '7654321'
+    str2 = '+-*/%.,'
+    print(f'{str1 = }   {str2 = }')
+    print(f'{intersperse(str1, str2) = }')
+    ```
+* 輸出：
+    ![](https://i.imgur.com/foy7QNG.png =550x)
+---
+### <div class='t3'>ex34：函數--分割list</div>
+* 規格：
+    |<div class='T'><center>名稱|<div class='T'><center>參數|<div class='T'><center>傳回值|<div class='T'><center>功能|
+    |-|-|-|-|
+    |<span class='R'>split_list</span>|名稱: <span class='R'>numbers</span><br>型別: <span class='HQ'>list|<span class='HQ'>tuple</span>|<ol><li>將<span class='r'>numbers</span>中的元素依「有無<br>重複」分割成兩個小lists。</li><li>不重複元素組成的list<br>稱為red_box(紅盒)。</li><li>重複元素組成的list<br>稱為blue_box(藍盒)，<br>重複元素只保留一個。</li><li>紅藍兩盒組成一個tuple。</li><li>傳回此tuple。</li></ol>|
+* 建議：
+    1. 別一開始就埋頭寫code。先不用電腦，設想如果要將一些物品分成沒有重複和有重複兩堆，您會採取甚麼方法。
+    2. 把想出的解決方法，變成一條條具體的步驟，逐一寫出或畫出。
+    3. 寫出後檢查這些步驟有無漏洞。
+    3. 確定可行後，才著手將紙上的步驟「翻譯」成Python code。
+* 提示：只用一個for迴圈，再加些if判斷即可。寫法並不複雜，重點是如上面的建議，能想出具體步驟。
+* 測試程式：
+    ```python=
+    numbers = [5, 6, 3, 2, 8, 3, 8, 3, 3, 6, 0]
+    print(f'{numbers = }')
+    print(f'{split_list(numbers) = }')
+
+    print()
+    numbers = [9, 0, 4, 0, 7, 9, 1, 9, 6]
+    print(f'{numbers = }')
+    print(f'{split_list(numbers) = }')
+
+    print()
+    numbers = [0, 1, 2, 3, 4, 4, 2, 3, 0]
+    print(f'{numbers = }')
+    print(f'{split_list(numbers) = }')
+
+    print()
+    numbers = [8, 2, 2, 7, 2, 2, 3, 2, 4, 9, 1]
+    print(f'{numbers = }')
+    print(f'{split_list(numbers) = }')
+
+    print()
+    numbers = [5, 5, 5, 5, 5]
+    print(f'{numbers = }')
+    print(f'{split_list(numbers) = }')
+
+    print()
+    numbers = [11, 29, 86, 33, 6]
+    print(f'{numbers = }')
+    print(f'{split_list(numbers) = }')
+    ```
+* 輸出：
+    ![](https://i.imgur.com/QyWLYX5.png =550x)
+---
+### <div class='t3'>ex33：函數--擴充dict</div>
+* 規格：
+    |<div class='T'><center>名稱|<div class='T'><center>參數|<div class='T'><center>傳回值|<div class='T'><center>功能|
+    |-|-|-|-|
+    |<span class='R'>add_key</span>|名稱-1: <span class='R'>raw_dict</span><br>型別: <span class='HQ'>dict</span><br>意義: 待處理的dict<br>預設值: 無<br>&#x2015;&#x2015;&#x2015;&#x2015;&#x2015;&#x2015;<br>名稱-2: <span class='R'>key</span><br>型別: <span class='HQ'>object</span><br>意義: 新的key<br>預設值: 無<br>&#x2015;&#x2015;&#x2015;&#x2015;&#x2015;&#x2015;<br>名稱-3: <span class='R'>value</span><br>型別: <span class='HQ'>object</span><br>意義: 新的值<br>預設值: None<br>&#x2015;&#x2015;&#x2015;&#x2015;&#x2015;&#x2015;<br>名稱-4: <span class='R'>add</span><br>型別: <span class='HQ'>bool</span><br>意義: 是否確定新增<br>預設值: True|<span class='HQ'>dict</span>|<ol><li>在<span class='r'>raw_dict</span>新增<span class='r'>key</span>或<br>修改原key的值。</li><li><span class='r'>raw_dict</span>有該<span class='r'>key</span>時，直接以<br><span class='r'>value</span>蓋掉原值(忽略<span class='r'>add</span>)。</li><li><span class='r'>raw_dict</span>沒有該<span class='r'>key</span>時：<ul><li><span class='r'>add</span>為True ⮕ 新增</li><li><span class='r'>add</span>為False ⮕ 不新增</li></ul><li>原<span class='R'>raw_dict的內容不能更改。</span><br>意思是raw_dict和函數傳回<br>的dict不能是同一物件。</li></ol>|
+* 提示：
+  本題看似複雜，其實只要上網查一下，掌握住以下三點，幾行就寫完。
+    1. Python的shallow copy(淺拷貝)和deep copy(深拷貝)，或可[參考我以前寫的這篇](https://hackmd.io/@alexhtwen/SyL7bhkhX)。
+    2. 函數的參數預設值語法。
+    3. dict的內建函數。
+* 測試程式-1(<span class='r'>raw_dict</span>有該<span class='r'>key</span>)：
+    ```python=
+    old_dict = {'id': 1, 'name': 'Alex'}
+    print()
+    new_dict = add_key(old_dict, 'name', 'Thomas', True)
+    print(f"{old_dict = }")
+    print("new_dict = add_key(old_dict, 'name', 'Thomas', True)")
+    print(f"結果new_dict的內容為：{new_dict}")
+    print()
+    new_dict = add_key(old_dict, 'name', 'Thomas', False)
+    print(f"{old_dict = }")
+    print("new_dict = add_key(old_dict, 'name', 'Thomas', False)")
+    print(f"結果new_dict的內容為：{new_dict}")
+    print()
+    new_dict = add_key(old_dict, 'name', 'Thomas')
+    print(f"{old_dict = }")
+    print("new_dict = add_key(old_dict, 'name', 'Thomas')")
+    print(f"結果new_dict的內容為：{new_dict}")
+    print()
+    new_dict = add_key(old_dict, 'name')
+    print(f"{old_dict = }")
+    print("new_dict = add_key(old_dict, 'name')")
+    print(f"結果new_dict的內容為：{new_dict}")
+    ```
+* 輸出：
+    ![](https://i.imgur.com/amsjqPa.png =600x)
+* 測試程式-2(<span class='r'>raw_dict</span>無該<span class='r'>key</span>)：
+    ```python=
+    old_dict = {'id': 1, 'name': 'Alex'}
+    print()
+    new_dict = add_key(old_dict, 'bmi', 22.8, True)
+    print(f"{old_dict = }")
+    print("new_dict = add_key(old_dict, 'bmi', 22.8, True)")
+    print(f"結果new_dict的內容為：{new_dict}")
+    print()
+    new_dict = add_key(old_dict, 'bmi', 22.8, False)
+    print(f"{old_dict = }")
+    print("new_dict = add_key(old_dict, 'bmi', 22.8, False)")
+    print(f"結果new_dict的內容為：{new_dict}")
+    print()
+    new_dict = add_key(old_dict, 'bmi', 22.8)
+    print(f"{old_dict = }")
+    print("new_dict = add_key(old_dict, 'bmi', 22.8)")
+    print(f"結果new_dict的內容為：{new_dict}")
+    print()
+    new_dict = add_key(old_dict, 'bmi')
+    print(f"{old_dict = }")
+    print("new_dict = add_key(old_dict, 'bmi')")
+    print(f"結果new_dict的內容為：{new_dict}")
+    ```
+* 輸出：
+    ![](https://i.imgur.com/q9sHmjQ.png =600x)
+---
+### <div class='t3'>ex32：函數--list剔除重複元素後的總和</div>
+* 規格：
+    |<div class='T'><center>名稱|<div class='T'><center>參數|<div class='T'><center>傳回值|<div class='T'><center>功能|
+    |-|-|-|-|
+    |<span class='R'>get_unique_sum</span>|名稱: <span class='R'>lst</span><br>型別: <span class='HQ'>list</span><br>元素: 全是整數|<span class='HQ'>int</span>|<ol><li><span class='r'>lst</span>的重複元素<br>只保留一個。</li><li>剔除重複後求所<br>有元素的sum。</li></ol>|
+* 提示：在list, tuple, set, 和dict這四種容器中，您會利用哪一種來過濾重複呢？
+* 測試程式：
+    ```python=
+    print(f'{get_unique_sum([4, 7, 3, 4, 9, 3, 3, 0, -7]) = }')
+    print(f'{get_unique_sum([11, 6, -25, 6, 1, 6, 5, 3, 1, 8]) = }')
+    print(f'{get_unique_sum([36, 37, 38, 11, 12, 37, -11, 11]) = }')
+    print(f'{get_unique_sum([1, -2, 3, 4, 1, 3, 4, -2, 7, 1]) = }')
+    ```
+* 輸出：
+    ![](https://i.imgur.com/19Jdllu.png =600x)
+---
+### <div class='t3'>ex31：函數--產生一個list</div>
+* 規格：
+    |<div class='T'><center>名稱|<div class='T'><center>參數|<div class='T'><center>傳回值|<div class='T'><center>功能|
+    |-|-|-|-|
+    |<span class='R'>create_list</span>|名稱-1: <span class='R'>start</span><br>型別: <span class='HQ'>int</span><br>意義: list的第1個<br>　　　元素(含)<br>&#x2015;&#x2015;&#x2015;&#x2015;&#x2015;&#x2015;<br>名稱-2: <span class='R'>end</span><br>型別: <span class='HQ'>int</span><br>意義: list的最後<br>　　　元素(不含)<br>&#x2015;&#x2015;&#x2015;&#x2015;&#x2015;&#x2015;<br>名稱-3: <span class='R'>step</span><br>型別: <span class='HQ'>int</span><br>意義: 步幅|<span class='HQ'>list</span>|<ol><li>產生一個list，第一個<br>元素為<span class='r'>start</span>，以<span class='r'>step</span><br>為間距遞增，直至<span class='r'>end</span><br>之前的最大值。</li><li>把list的元素倒排<br>(reverse the list)，<br>而成另一個list。<li>傳回該reverse list。</li></ol>|
+* 提示：
+    * 請查閱range()的所有參數。
+    * 在下[很久前寫的這篇文章](https://hackmd.io/@alexhtwen/SyL7bhkhX)可能有些幫助。
+* 測試程式：
+    ```python=
+    print(f'{create_list(3, 17, 3) = }')
+    print(f'{create_list(56, 90, 5) = }')
+    print(f'{create_list(-20, 9, 4) = }')
+    print(f'{create_list(0, 500, 99) = }')
+    ```
+* 輸出：
+    ![](https://i.imgur.com/iWSJlvG.png =600x)
+---
+### <div class='t3'>ex30：函數--插入字元</div>
+* 規格：
+    |<div class='T'><center>名稱|<div class='T'><center>參數|<div class='T'><center>傳回值|<div class='T'><center>功能|
+    |-|-|-|-|
+    |<span class='R'>insert_seps</span>|名稱-1: <span class='R'>raw_str</span><br>型別: <span class='HQ'>str</span><br>意義: 待處理的<br>　　　字串<br>&#x2015;&#x2015;&#x2015;&#x2015;&#x2015;&#x2015;<br>名稱-2: <span class='R'>sep</span><br>型別: <span class='HQ'>str</span><br>意義: 區隔字串<br>　　　(1-N個字元)|<span class='HQ'>str</span>|<ol><li>在<span class='r'>raw_str</span>的每個<br>字元之間插入<span class='r'>sep</span>。</li><li>新字串的前後分別<br>加上`'α'`和`'ω'`。</li></ol>|
+* 提示：可使用Python的內建字串函數，上網查一下就行。
+* 測試程式：
+    ```python=
+    raw_str = 'Hello, World!'
+    print(f'{raw_str = }')
+    print(f"{insert_seps(raw_str, '..') = }")
+
+    print()
+    raw_str = 'Readability counts.'
+    print(f'{raw_str = }')
+    print(f"{insert_seps(raw_str, '_') = }")
+
+    print()
+    raw_str = '欲窮千里目，更上一層樓。'
+    print(f'{raw_str = }')
+    print(f"{insert_seps(raw_str, ' ') = }")
+    ```
+* 輸出：
+    ![](https://i.imgur.com/13UWkSq.png =700x)
+---
+### <div class='t3'>ex29：函數--大小寫對調</div>
+* 規格：
+     |<div class='T'><center>名稱|<div class='T'><center>參數|<div class='T'><center>傳回值|<div class='T'><center>功能|
+    |-|-|-|-|
+    |<span class='R'>toggle_case</span>|名稱: <span class='R'>raw_str</span><br>型別: <span class='HQ'>str</span><br>意義: 待處理<br>　　　的字串|<span class='HQ'>str</span>|<ol><li><span class='r'>raw_str</span>中的英文字母<br>大小寫互換，即大寫<br>變小寫，小寫變大寫。</li><li>新字串的前後分別<br>加上`'α'`和`'ω'`。</li></ol>|
+* 提示：可使用Python的內建字串函數，上網查一下就行。
+* 測試程式：
+    ```python=
+    raw_str = 'Life is short.  We use Python.'
+    print(f'{raw_str = }')
+    print(f"{toggle_case(raw_str) = }")
+
+    print()
+    raw_str = 'Talk is cheap.  Show me the CODE.'
+    print(f'{raw_str = }')
+    print(f"{toggle_case(raw_str) = }")
+
+    print()
+    raw_str = '我們正在學CPR & First Aid。'
+    print(f'{raw_str = }')
+    print(f"{toggle_case(raw_str) = }")
+    ```
+* 輸出：
+    ![](https://i.imgur.com/tH2vtaM.png =700x)
+---
+### <div class='t3'>ex28：函數--刪除空白</div>
+* 規格：
+     |<div class='T'><center>名稱|<div class='T'><center>參數|<div class='T'><center>傳回值|<div class='T'><center>功能|
+    |-|-|-|-|
+    |<span class='R'>remove_spaces</span>|名稱: <span class='R'>raw_str</span><br>型別: <span class='HQ'>str</span><br>意義: 待處理<br>　　　的字串|<span class='HQ'>str</span>|<ol><li>刪除<span class='r'>raw_str</span>中的<br>所有空白。</li><li>新字串的前後分別<br>加上`'α'`和`'ω'`。</li></ol>|
+* 提示：可使用Python的內建字串函數，上網查一下就行。
+* 測試程式：
+    ```python=
+    raw_str = '   Hasta  la   vista,  baby.    --Terminator 2   '
+    print(f'{raw_str = }')
+    print(f"{remove_spaces(raw_str) = }")
+    print()
+    raw_str = ' Never lose a holy curiosity. --Albert Einstein'
+    print(f'{raw_str = }')
+    print(f"{remove_spaces(raw_str) = }")
+    print()
+    raw_str = ' 天  地  不  仁， 以  萬  物  為  芻  狗。  --Lao Zi '
+    print(f'{raw_str = }')
+    print(f"{remove_spaces(raw_str) = }")
+    ```
+* 輸出：
+    ![](https://i.imgur.com/fgnVsoh.png =700x)
+---
+### <div class='t3'>ex27：函數--是否為「合數」(composite number)</div>
+* 合數是大於1的非質數。
+* 規格：
+     |<div class='T'><center>名稱|<div class='T'><center>參數|<div class='T'><center>傳回值|<div class='T'><center>功能|
+    |-|-|-|-|
+    |<span class='R'>is_composite</span>|名稱: <span class='R'>number</span><br>型別: <span class='HQ'>int</span><br>意義: 欲判斷<br>　　　的數字|<span class='HQ'>bool</span><br>意義: 是否合數|判斷<span class='r'>number</span><br>是否為合數|
+* 合數定義：
+    * 大於1的正整數。
+    * 可被其他較小的正整數整除。
+* 測試程式：
+    ```python=
+    print(f'{is_composite(-3) = }')
+    print(f'{is_composite(0) = }')
+    print(f'{is_composite(1) = }')
+    print(f'{is_composite(2) = }')
+    print(f'{is_composite(3) = }')
+    print(f'{is_composite(4) = }')
+    print(f'{is_composite(73) = }')
+    print(f'{is_composite(12347) = }')
+    print(f'{is_composite(674139) = }')
+    ```
+* 輸出：
+    ![](https://i.imgur.com/Bf8Rork.png =550x)
+---
+### <div class='t3'>ex26：函數--是否為「質數」(prime number)</div>
+* 規格：
+    |<div class='T'><center>名稱|<div class='T'><center>參數|<div class='T'><center>傳回值|<div class='T'><center>功能|
+    |-|-|-|-|
+    |<span class='R'>is_prime</span>|名稱: <span class='R'>number</span><br>型別: <span class='HQ'>int</span><br>意義: 欲判斷<br>　　　的數字|<span class='HQ'>bool</span><br>意義: 是否質數|判斷<span class='r'>number</span><br>是否為質數|
+* 質數定義：
+    * 大於1的正整數。
+    * 除1和本身外，無法被其他正整數整除。
+* 測試程式：
+    ```python=
+    print(f'{is_prime(-3) = }')
+    print(f'{is_prime(0) = }')
+    print(f'{is_prime(1) = }')
+    print(f'{is_prime(2) = }')
+    print(f'{is_prime(3) = }')
+    print(f'{is_prime(4) = }')
+    print(f'{is_prime(73) = }')
+    print(f'{is_prime(12347) = }')
+    print(f'{is_prime(674139) = }')
+    ```
+* 輸出：
+    ![](https://i.imgur.com/3SdctBR.png =550x)
+---
+### <div class='t3'>ex25：函數--書的頁數</div>
+* 規格：
+    |<div class='T'><center>名稱|<div class='T'><center>參數|<div class='T'><center>傳回值|<div class='T'><center>功能|<div class='T'><center>備註|
+    |-|-|-|-|-|
+    |<span class='R'>get_pages</span>|名稱-1: <span class='R'>total_words</span><br>型別: <span class='HQ'>int</span><br>意義: 總字數<br>&#x2015;&#x2015;&#x2015;&#x2015;&#x2015;&#x2015;<br>名稱-2: <span class='R'>words_per_line</span><br>型別: <span class='HQ'>int</span><br>意義: 每行字數<br>&#x2015;&#x2015;&#x2015;&#x2015;&#x2015;&#x2015;<br>名稱-3: <span class='R'>lines_per_page</span><br>型別: <span class='HQ'>int</span><br>意義: 每頁行數|<span class='HQ'>int</span><br>意義: 總頁數|計算<br>該書<br>頁數|<ol><li>假設全書不分<br>章節和段落。</li><li>亦無目錄、標<br>題、空行和索<br>引等。</li><li>純以總字數、<br>每行字數及每<br>頁行數計算出<br>總頁數。</li></ol>|
+* 測試程式：
+    ```python=
+    print(f'{get_pages(110_537, 28, 26) = }')
+    print(f'{get_pages(236_090, 39, 18) = }')
+    print(f'{get_pages(788_451, 44, 16) = }')   # 紅樓夢字數
+    print(f'{get_pages(481_584, 46, 19) = }')
+    ```
+* 輸出：
+    ![](https://i.imgur.com/o2fL3SJ.png =500x)
+---
+### <div class='t3'>ex24：函數--計算兩個整數是否能整除</div>
+* 規格：
+    |<div class='T'><center>名稱|<div class='T'><center>參數|<div class='T'><center>傳回值|<div class='T'><center>功能|
+    |-|-|-|-|
+    |<span class='R'>is_aliquot</span>|名稱-1: <span class='R'>dividend</span><br>型別: <span class='HQ'>int</span><br>意義: 被除數<br>&#x2015;&#x2015;&#x2015;&#x2015;&#x2015;&#x2015;<br>名稱-2: <span class='R'>divisor</span><br>型別: <span class='HQ'>int</span><br>意義: 除數|<span class='HQ'>bool</span>|<ol><li>整除時傳回True。</li><li>不能整除傳回False。</li><li>除數為零時要產生Exception，<br>錯誤訊息須為自訂的中文訊息。<br>(初期可以不做這項)</li></ol>|
+* 範例：
+    ![](https://i.imgur.com/8BQXzkV.png =450x)
+---
+### <div class='t3'>ex23：函數--抓出雙引號中的字</div>
+* 規格：
+    |<div class='T'><center>名稱|<div class='T'><center>參數|<div class='T'><center>傳回值|<div class='T'><center>功能|<div class='T'><center>備註|
+    |-|-|-|-|-|
+    |<span class='R'>get_quotes</span>|名稱: <span class='R'>raw_chars</span><br>型別: <span class='HQ'>str</span><br>意義: 一段包含若干<br>組雙引號`""`的字串|<span class='HQ'>str</span>|將參數字串中包<br>在`""`內的字抓出<br>並串接在一起。|<ul><li>`"`本身不抓。</li><li>最後「落單」的`"`不算。</li></ul>|
+* 範例：
+    ```python=
+    raw_char = '名詞解釋： "polymorphism"一詞，是"poly"和"morphism"兩字的組合，意思是"多種形狀"。"(註1)'
+
+    # 函數傳回值：'polymorphismpolymorphism多種形狀'
+    ```
+* 提示：可以用「正則表達式」做，也可以逐字讀取，利用一個旗標變數記錄每個字的「**狀態**」。變名稱建議可用`is_quote`，型別為bool，`True`表示在`""`內，`False`則在`""`外。
+---
+### <div class='t3'>ex22：函數--計算中文字數</div>
+* 規格：
+    |<div class='T'><center>名稱|<div class='T'><center>參數|<div class='T'><center>傳回值|<div class='T'><center>功能|
+    |-|-|-|-|
+    |<span class='R'>get_chinese_chars</span>|名稱: <span class='R'>raw_chars</span><br>型別: <span class='HQ'>str</span><br>意義: 一段較長<br>　　　的字串|<span class='HQ'>int</span><br>意義: <span class='r'>raw_chars</span><br>　　　中的中文<br>　　　字數|<ul><li>字串中的英數和半形<br>符號都不算。</li><li>只算中文字和全形<br>標點符號。</li><li>code block中的字不<br>管中英，通通不算。</li><li>code block以` ``` `開<br>始，亦以` ``` `結束。</li></ul>|
+* 提示：利用一個旗標變數(flag)來記錄目前這行「是否在code block內」。
+* 測試程式：
+    ```python=
+    raw_chars = '''
+    昨天簡介`類別屬性`(class attributes)，今天則淺談`類別方法`(class methods)。
+    筆者談類別方法的「方法」(註1)，是從類別屬性切入。
+
+    * 以下是昨天類別屬性的code。為節省篇幅，僅貼部分，完整版本見昨天發文：
+        ```
+        class Tree():
+            count = 0         # 放在建構子外面的是類別屬性。
+
+            def __init__(self, breed: str, age: int):
+                self.__breed = breed
+                self.__age = age
+                Tree.count += 1          # class attributes是用Tree.xxx而非self.xxx
+                ...   # 以下略
+        ```
+    * `count`, `total_age`和`average_age`這幾個類別屬性都設成公開，所以主程式可以直接以`方法.屬性`或`物件.屬性`存取，沒用到property。看來還滿「方便」的。
+    * 不過，這好像違反了筆者一直強調`屬性盡量私有(private)`的封裝保護層級理論。怎辦？改為私有吧：
+    * 改為私有，類別屬性當然得補上properties。補好後的完整版本如下：
+        ```
+        class Tree():
+            __count = 0         # 所有類別的屬性都改為私有。
+
+            def __init__(self, breed: str, age: int):
+                self.__breed = breed
+                self.__age = age
+
+                Tree.__count += 1          # 類別屬性是用Tree.xxx而不是self.xxx。
+                # 以下略。
+        ```
+    * 測試程式如下。請特別注意：這段測試程式，三個`類別屬性`都是用「**物件.屬性**」方式存取。'''
+
+    print(f'{get_chinese_chars(raw_chars) = }')
+    ```
+* 下圖標示哪些行是code block：
+    ![](https://i.imgur.com/AwCroPL.png =950x)
+* 輸出：
+    ![](https://i.imgur.com/NxZ2KNR.png =600x)
+---
+### <div class='t3'>ex21：函數--醫院門診預約掛號</div>
+* 規格：
+    |<div class='T'><center>名稱|<div class='T'><center>參數|<div class='T'><center>傳回值|<div class='T'><center>功能|
+    |-|-|-|-|
+    |<span class='R'>make_appointment</span>|<ul><li><span class='R'>patient_id</span><br>病人編號<br><span class='HQ'>型別: int</span></li><li><span class='R'>department_id</span><br>科別編號<br><span class='HQ'>型別: str</span></li><li><span class='R'>doctor_id</span><br>醫師編號<br><span class='HQ'>型別: str</span></li><li><span class='R'>date</span><br>預約日期<br><span class='HQ'>型別: str</span><br>格式：`yyyy-mm-dd`</li><li><span class='R'>period</span><br>預約時段<br>`上午`、`下午`、`夜間`<br><span class='HQ'>型別: str</span></li></ul>|<span class='HQ'>型別: bool</span><br><ul><li>True: 預約成功</li><li>False: 預約失敗</li></ul>|預約<br>掛號|
+* <span class='m'>病人編號用int</span>模擬病歷號或身分證編號即可。
+* <span class='m'>科別和醫師編號都是字串</span>，請自行定義。例如骨科`027`、神內`013`、翁佩韋醫師`00715`、江長蓉醫師`00721`...等。不必太多，科別2-3科、每科2-3位醫師即可。
+* 請自行設定每位醫師的看診人數。例如01538號醫師周一上午看50人、周四下午60人，夜間0人(不看夜間門診)等。也可簡化為每位醫師每個時段看診人數都相同。
+* 為方便觀察預約失敗，建議<span class='m'>醫師的看診人數設得很少</span>，例如2-3人，這樣比較容易滿額。
+* 醫師在該時段<span class='m'>預約人數未滿額時，傳回True</span>表示預約成功。
+* 科別編號或醫師編號不存在，或醫師在該時段<span class='m'>預約人數已滿額或沒有看診，則傳回False</span>表示預約失敗。
+* 暫不考慮取消預約問題。
+* 提示：科別編號和名稱需要一個對照表，醫師編號、姓名和看診人數等也要用另一個對照表。這些<span class='m'>對照表請全用dict來實作</span>。
+* 輸出：
+   ![](https://i.imgur.com/4RcjItQ.png =600x)
+---
+### <div class='t3'>ex20：函數--函數傳回值</div>
+* 以下這段code，my_func()中有改變參數num的值，但是主程式第14行i的值卻沒有更改，仍然是123。這是對的，因為函數內的num是local(區域)變數，並不是主程式的i。
+    ```python=
+    def my_func(num: int):   # num是形參
+        num += 1    # num是「參數」，也就是local變數。在函數裡改變local變數的值，不會影響外面。
+        print(f'within my_func(): {num=}')
+        return num
+
+    s = 'hello, world'  # s的值是'hello, world'
+    i = 123             # i的值是123
+    lst = []            # lst的值是一個空的list
+    # my_func(i)          # 呼叫my_func()之後的值是None(i是實參)
+    # my_func(123)        # 呼叫my_func()之後的值是None(i是實參)
+    # my_func             # 和my_func()不一樣
+    print(f'before my_func(): {i=}')
+    print(my_func(i))  # print出my_func()的傳回值，也就是my_func()的值。
+    print(f'after my_func() : {i=}')
+    ```
+* 需求：請想辦法使第14行的i變成124而不是123。
+* 提示：最少有兩種方法可以做到，都是很簡單的修改。可以只修改主程式，也可以只修改函數，當然也可以兩者都改。請最少寫出一種。不要想得太複雜，其實只要改一下就行。
+---
+### <div class='t3'>ex19：函數--藏頭詩</div>
+* 藏頭詩(acrostic)是一種文字遊戲。最簡單的做法是先寫一首詩或幾句句子，取每句首字，組合成另一有意義的字詞。
+* 柳宗元的名詩《江雪》：<span class='R'>千</span><span class='HQ'>山鳥飛絕，</span><span class='R'>萬</span><span class='HQ'>徑人蹤滅。</span><span class='R'>孤</span><span class='HQ'>舟蓑笠翁，</span><span class='R'>獨</span><span class='HQ'>釣寒江雪。</span>就是一首藏頭詩，四句各取首字，合起來為「<span class='R'>千萬孤獨</span>」，正合該詩主題。
+* 我們的藏頭詩函數稍加變化如下：
+    |<div class='T'><center>名稱|<div class='T'><center>參數|<div class='T'><center>傳回值|<div class='T'><center>功能|
+    |-|-|-|-|
+    |<span class='R'>acrostic</span>|名稱: <span class='R'>idioms</span><br>型別: <span class='HQ'>tuple / list</span><br>意義: 藏頭詩原句|<span class='HQ'>str</span><br>意義: 組合後句子|<ul><li>傳入參數為tuple或list。</li><li>8個元素，每4個元素為<br>一輪，共兩輪。</li><li>每個元素都是個4字成語，<br>即藏頭詩的一句。</li><li>第1句(成語)取首字。</li><li>第2句取第2字，餘類推。</li><li>第4句取末字並<span class='R'>加逗點</span>`，`。</li><li>第一輪完。</li><li>第二輪開始。</li><li>第5句為首句，取首字。</li><li>第8句取末字並<span class='R'>加句點</span>`。`。</li><li>8句各取一字並<span class='R'>加標點</span>後組<br>成的字串，即為傳回值。</li></ul>|
+* 如不想花時間自行設計，可直接拿下列這組成語作為輸入：
+    ```python=
+    idioms = ('中流砥柱', '千秋萬世', '漸入佳境', '高風亮節', '月下花前', '聰明伶俐', '地靈人傑', '破鏡重圓')
+    ```
+* 輸出：
+    ![](https://i.imgur.com/3CkTIoF.png =800x)
+---
+### <div class='t3'>ex18：函數--演奏音樂</div>
+* 請利用winsound.Beep()寫一個演奏音樂函數：
+    |<div class='T'><center>名稱|<div class='T'><center>參數|<div class='T'><center>傳回值|<div class='T'><center>功能|<div class='T'><center>備註|
+    |-|-|-|-|-|
+    |<span class='R'>play_song</span>|名稱: <span class='R'>notations</span><br>型別: <span class='HQ'>tuple</span><br>意義: 歌譜|無|用winsound.Beep()<br>演奏傳入的歌譜。|可自選任<br>一歌曲。|
+* 提示：將簡譜中的數字和拍子存入一個名為`notations`的dict中，再根據[音高頻率表](https://zh.m.wikipedia.org/zh-tw/%E9%9F%B3%E9%AB%98)和[音樂速度表](https://zh.wikipedia.org/wiki/%E9%80%9F%E5%BA%A6_(%E9%9F%B3%E6%A8%82))，將每一個音符轉為音高頻率和播放時間，時間單位為毫秒(millisecond)，1000毫秒=1秒。然後用winsound.Beep()播出即可。
+* 以生日快樂歌為例：
+    * 簡譜：
+        ![](https://i.imgur.com/GF86tp7.png =600x)
+    * 將生日快樂歌簡譜的每個音符轉成音高頻率和播放時間(毫秒)。以下是我用的資料格式，您不一定要和我一樣，可以自行設計。
+        ```python=
+        # 音名和其音高頻率對照表
+        frequencies = {
+            'C3' : 130.81,    # 1
+            'C#3': 138.59,    # 1#
+            'D3' : 146.83,    # 2
+            'D#3': 155.56,    # 2#
+            'E3' : 164.81,    # 3
+            'F3' : 174.61,    # 4
+            'F#3': 185.00,    # 4#
+            'G3' : 196.00,    # 5
+            'G#3': 207.65,    # 5#
+            'A3' : 220.00,    # 6
+            'A#3': 233.08,    # 6#
+            'B3' : 246.94,    # 7
+            'C4' : 261.63,    # 1
+            'C#4': 277.18,    # 1#
+            'D4' : 293.66,    # 2
+            'D#4': 311.13,    # 2#
+            'E4' : 329.63,    # 3
+            'F4' : 349.23,    # 4
+            'F#4': 369.99,    # 4#
+            'G4' : 391.99,    # 5
+            'G#4': 415.30,    # 5#
+            'A4' : 440.00,    # 6
+            'A#4': 466.16,    # 6#
+            'B4' : 493.88,    # 7
+            'C5' : 523.25,    # 1
+            'C#5': 554.37,    # 1#
+            'D5' : 587.33,    # 2
+            'D#5': 622.25,    # 2#
+            'E5' : 659.26,    # 3
+            'F5' : 698.46,    # 4
+            'F#5': 739.99,    # 4#
+            'G5' : 783.99,    # 5
+            'G#5': 830.61,    # 5#
+            'A5' : 880.00,    # 6
+            'A#5': 932.33,    # 6#
+            'B5' : 987.77,    # 7
+       }
+
+        # 拍子速度表(快板)：H: 半拍    M: 一拍    D: 兩拍    T: 三拍    Q: 四拍
+        durations = {'H': 250, 'M': 500, 'D': 1000, 'T': 1500, 'Q': 2000}
+
+        # 從生日快樂歌簡譜轉成的音名和拍子(速度)
+        notations = ('G3 H', 'G3 H', 'A3 M', 'G3 M', 'C4 M', 'B3 D', 'G3 H', 'G3 H', 'A3 M', 'G3 M', 'D4 M', 'C4 D', 'G3 H', 'G3 H', 'G4 M', 'E4 M', 'C4 M', 'B3 M', 'A3 M', 'F4 H', 'F4 H', 'E4 M', 'C4 M', 'D4 M', 'C4 T')
+        ```
+---
+### <div class='t3'>ex17：函數--變數字串分割</div>
+* 變數、函數等的命名，有好多不同的「風格」。以下枚舉其中三種：
+    * Pascal Case(又稱Upper Camel Case)
+        * 組合字每一個字的首字母大寫，其餘小寫。例如：
+          `FamilyName`, `UserLoginId`, `RestApiWebApp`
+    * Camel Case(又稱Lower Camel Case)
+        * 第一個組合字全小寫，第二個字起首字母大寫，其餘小寫。例如：
+            `familyName`, `userLoginId`, `restApiWebApp`
+    * Snake Case
+        * 全小寫，兩個組合字之間用底線`_`隔開。例如：
+            `family_name`, `user_login_id`, `rest_api_web_app`
+* 寫3個函數，分別剖析這3種風格的「變數名稱」(其實就是字串)：
+    |<div class='T'><center>名稱|<div class='T'><center>參數|<div class='T'><center>傳回值|<div class='T'><center>功能|<div class='T'><center>備註|
+    |-|-|-|-|-|
+    |<span class='R'>pascal</span>|<span class='R'>chars</span><br><span class='HQ'>型別: str|<span class='HQ'>list</span>|將傳入的Pascal Case<br>字串<span class='R'>分解</span>成多個獨立<br>單字然後<span class='R'>組成list</span>。||
+    |<span class='R'>camel</span>|<span class='R'>chars</span><br><span class='HQ'>|<span class='HQ'>list</span>|將傳入的Camel Case<br>字串<span class='R'>分解</span>成多個獨立<br>單字然後<span class='R'>組成list</span>。||
+    |<span class='R'>snake</span>|<span class='R'>chars</span><br><span class='HQ'>|<span class='HQ'>list</span>|將傳入的Snake Case<br>字串<span class='R'>分解</span>成多個獨立<br>單字然後<span class='R'>組成list</span>。|Python的變數<br>和函數慣用這<br>種命名方式。|
+* 執行範例：
+    ![](https://i.imgur.com/HKRp2vq.png =500x)
+　　　
+    ![](https://i.imgur.com/EDOdL0X.png =500x)
+    　
+    ![](https://i.imgur.com/WgZ1ci2.png =500x)
+---
+### <div class='t3'>ex16：正則表達式-1</div>
+* 下列為一假設的醫囑字串：
+```python=
+order = 'Tx: 30ml ACL rupture va9 mL Spur va30ml Cubitus Varus 47 ml Arthritis VA 36 ml Ankle Fracture va10'
+```
+* 請用re.search()抓出字串中的<span class='R'>第1個</span>及<span class='R'>最後1個</span>劑量數字。
+* 劑量的特徵為：
+    * 前面一定有`'va'`、後面則有`'ml'`，中間的數字就是劑量。
+    * `'va'`和`'ml'`都不分大小寫。
+    * `'va'`和劑量數字之間可能有一個或以上的空白。
+    * 劑量數字和`'ml'`之間也可能有一個或以上空白。
+* 字串的最前面必須是`'Tx:'`。
+* 要用2個patterns，一個pattern抓第1個劑量，另一個pattern抓最後那個劑量。
+* (提示)可能要用到：
+    * 貧婪模式和非貧婪模式。
+    * 規範字串最前面的`^`。
+    * 表示空白字元的`\s`。
+    * 表示數字的`\d`。
+    * 表示任何字元的`.`。
+    * 表示group的`()`。
+    * `*`, `+`等量詞。
+* 圖示：
+  ![](https://i.imgur.com/6iY9XuN.png =600x)
+---
+### <div class='t3'>ex15：函數--計算還有多少時間要量血壓體溫</div>
+* 醫師囑咐要在<span class='R'>每小時整點</span>時幫某病人量血壓和體溫。
+* 寫一個函數，顯示離下次量血壓體溫<span class='R'>還有幾分幾秒</span>。
+    |<div class='T'><center>名稱|<div class='T'><center>參數|<div class='T'><center>傳回值|<div class='T'><center>功能|
+    |-|-|-|-|
+    |<span class='R'>show_rest_time</span>|無|無|<span class='R'>計算</span>並<span class='R'>印出</span>從目前<br>這刻到下次量血壓<br>體溫的<span class='R'>差距時間</span>。|
+* 注意：這個函數既沒有參數也沒有傳回值，<span class='R'>所有計算和print()都在函數內做</span>，主程式只管呼叫就行。
+* 建議：可參考2022-08-11Python meetup夢梅介紹datetime模組的錄影。
+* 執行範例：
+    * 在整點時呼叫show_rest_time():
+      ![](https://i.imgur.com/zLa7UZd.png =280x)
+    * 在非整點時呼叫show_rest_time():
+      ![](https://i.imgur.com/DL1Rwdk.png =450x)
+---
+### <div class='t3'>ex14：函數--Happy Number</div>
+* 檢查一個數字是否為happy number：
+    |<div class='T'><center>名稱|<div class='T'><center>參數|<div class='T'><center>傳回值|<div class='T'><center>功能|<div class='T'><center>備註|
+    |-|-|-|-|-|
+    |<span class='R'>is_happy_number|<span class='R'>n</span><br><span class='HQ'>型別: int</span>|n是否happy<br><span class='HQ'>bool</span>|檢查傳入的參數n<br>是否`happy`|23 ⮕ True<br>90 ⮕ False|
+* 所謂happy number，是指一個數字，如果將它的每一位數`平方`，然後`加總`(即求其sum of squares)而成為一個新數字。一直重複以上過程，最後達到1者。
+* 範例-1:
+    * n = 7
+        |<div class='T'><center>n|<div class='T'><center>運算|<div class='T'><center>new_n|
+        |-:|-:|-:|
+        |7| 49|49|
+        |49| 16+81|97|
+        |97| 81+49|130|
+        |130| 1+9+0|10|
+        |10|1+0 |<span class='m'><b>1</b></span>(Bingo!)|
+    * <span class='R'>7是happy number</span>，因為運算的最後達到1。
+* 範例-2:
+    * n = 90
+        |<div class='T'><center>n|<div class='T'><center>運算|<div class='T'><center>new_n|
+        |-:|-:|-:|
+        |90| 81+0   | 81|
+        |81| 64+1   | 65|
+        |65| 36+25  | 61|
+        |61| 36+1   |<span class='m'><b>37</b></span>|
+        |37| 9+49   | 58|
+        |58| 25+64  | 89|
+        |89| 64+81  | 145|
+        |145|1+16+25| 42|
+        |42| 16+4   | 20|
+        |20| 4+0    | 4|
+        |4|  16     | 16|
+        |16| 1+36   |<span class='m'><b>37</b></span>(重複之前的數字)|
+    * 運算過程中有重複之前某一輪的結果(37)，形成無窮循還，永遠達不到1。所以<span class='R'>90並不happy</span>。
+    * 參考：1-1000間的happy numbers: 1, 7, 10, 13, 19, 23, 28, 31, 32, 44, 49, 68, 70, 79, 82, 86, 91, 94, 97, 100, 103, 109, 129, 130, 133, 139, 167, 176, 188, 190, 192, 193, 203, 208, 219, 226, 230, 236, 239, 262, 263, 280, 291, 293, 301, 302, 310, 313, 319, 320, 326, 329, 331, 338, 356, 362, 365, 367, 368, 376, 379, 383, 386, 391, 392, 397, 404, 409, 440, 446, 464, 469, 478, 487, 490, 496, 536, 556, 563, 565, 566, 608, 617, 622, 623, 632, 635, 637, 638, 644, 649, 653, 655, 656, 665, 671, 673, 680, 683, 694, 700, 709, 716, 736, 739, 748, 761, 763, 784, 790, 793, 802, 806, 818, 820, 833, 836, 847, 860, 863, 874, 881, 888, 899, 901, 904, 907, 910, 912, 913, 921, 923, 931, 932, 937, 940, 946, 964, 970, 973, 989, 998, 1000
+    * 執行範例：
+      ![](https://i.imgur.com/HS4nLkc.png =300x)
+---
+### <div class='t3'>ex13：函數--計算稀釋後的酒精須分裝幾小瓶</div>
+* 規格：
+    |<div class='T'><center>名稱|<div class='T'><center>參數|<div class='T'><center>傳回值|<div class='T'><center>執行結果|
+    |-|-|-|-|
+    |<span class='R'>count_bottles|<span class='R'>ml</span><br>原酒精的<br>ml數<br><span class='HQ'>型別: int</span>|<span class='HQ'>int</span>|1000 ⮕ 4<br>3350 ⮕ 13<br>4439 ⮕ 17<br>2763 ⮕ 10|
+* 規則：
+  * 假設有一大桶95%的酒精，其ml數就是函數的參數。
+  * 先將該桶酒精稀釋至75%。
+  * 稀釋後一滴不剩全部分裝到小瓶。
+  * 每小瓶最多350ml，但可以不裝滿。
+  * 計算「最少」須用幾個小瓶。
+* 輸出：
+  ![](https://i.imgur.com/B3vMmwU.png =400x)
+---
+### <div class='t3'>ex12：函數--計算list各元素的和(2)</div>
+* 假設list最少有一個元素，且所有元素都是正整數(即從1開始的整數)：
+    |<div class='T'><center>名稱|<div class='T'><center>參數|<div class='T'><center>傳回值|<div class='T'><center>規則|<div class='T'><center>備註|
+    |-|-|-|-|-|
+    |<span class='R'>get_sum|<span class='R'>nums</span><br><span class='HQ'>型別: <br>list</span>|各元素計<br>算後的<span class='r'>和</span><br><span class='HQ'><br>float(小<br>數點後四<br>位)</span>|<ul><li>元素除以3的餘數2：<br>該元素先減1，後平方。</li><li>元素除以3的餘數1：<br>該元素先加1，後平方根。</li><li>元素除以3的餘數0：<br>保持原值。</li><li>最後將各元素計算<br>後的新值相加。</li></ul>|`[5, 2, 51]` ⮕ 68.0<br>`[24, 3, 6, 9]` ⮕ 42.0<br>`[7, 8, 1, 10, 4]` ⮕ 58.7953|-|
+---
+### <div class='t3'>ex11：函數--計算list各元素的和(1)</div>
+* 假設list最少有一個元素，且所有元素都是正整數(即從1開始的整數)：
+    |<div class='T'><center>名稱|<div class='T'><center>參數|<div class='T'><center>傳回值|<div class='T'><center>規則|<div class='T'><center>備註|
+    |-|-|-|-|-|
+    |<span class='R'>get_sum|<span class='R'>nums</span><br><span class='HQ'>型別: <br>list</span>|各元素計<br>算後的<span class='r'>和</span><br><span class='HQ'><br>float(小<br>數點後四<br>位)</span>|<ul><li>元素為奇數：該元素<br>先減1，後平方。</li><li>元素為偶數：該元素<br>先加1，後平方根。</li><li>最後將各元素計算<br>後的新值相加。</li></ul>|`[5, 2, 51]` ⮕ 2517.7321<br>`[24, 3, 6, 9]` ⮕ 75.6458<br>`[7, 8, 1, 10, 4]` ⮕ 44.5527|
+* 範例：
+    ![](https://i.imgur.com/V7OEwwl.png =500x)
+---
+### <div class='t3'>ex10：函數--計算list元素的乘積</div>
+* 簡易版：list最少有一個元素，且所有元素都是int或float：
+    |<div class='T'><center>名稱|<div class='T'><center>參數|<div class='T'><center>傳回值|<div class='T'><center>功能|<div class='T'><center>備註|
+    |-|-|-|-|-|
+    |<span class='R'>get_product1|<span class='R'>objs</span><br><span class='HQ'>型別: list</span>|各元素<span class='r'>乘積</span><br><span class='HQ'>float</span>|objs所有元素<br>相乘|`[5, 1, 2, 11, 3, 2]` ⮕ 660.0<br>`[1.3, 6, 0.9, 4, 1]` ⮕ 28.08<br>`[7, 8, 2.64, 0, 9.37]` ⮕ 0.0|
+* 輸出：
+    ![](https://i.imgur.com/P3HBlxS.png =500x)
+* 進階版：list的元素可以是任意型別，但只有int / float的元素要相乘：
+    |<div class='T'><center>名稱|<div class='T'><center>參數|<div class='T'><center>傳回值|<div class='T'><center>功能|<div class='T'><center>備註|
+    |-|-|-|-|-|
+    |<span class='R'>get_product2|<span class='R'>objs</span><br><span class='HQ'>型別: list</span>|<ul><li><span class='HQ'>float</span>: objs有數字(int/<br>float)元素時，傳回所有<br>數字元素的<span class='r'>乘積</span>。</li><li><span class='HQ'>None</span>: 無數字元素時。|objs所有數<br>字元素相乘|`[False, 1, 4.3, '9', 6]`<span style='float: right;'>⮕ 25.8</span><br>`[2, [2], 6.35, (3), 3]`<span style='float: right;'>⮕ 114.3</span><br>`['12', True, {0}, (3,)]`<span style='float: right;'>&nbsp;⮕ None</span><br><span style='float: left;'>`[]`</span><span style='float: right;'>⮕ None</span>|
+* 輸出：
+    ![](https://i.imgur.com/1oKtoVY.png =500x)
+---
+### <div class='t3'>ex09：函數--數字轉中文</div>
+* 規格：
+    |<div class='T'><center>名稱|<div class='T'><center>參數|<div class='T'><center>傳回值|<div class='T'><center>功能|
+    |-|-|-|-|
+    |<span class='R'>numeral_to_chinese|<span class='R'>numeral</span><br><span class='HQ'>型別: int</span>|<span class='HQ'>str</span>|阿拉伯<br>數字轉成中文|
+* 傳入參數隨機產生。
+* 自行決定<span class='HQ'>最大數字</span>。100或1000也行，當然越大越好。
+* 可先做正整數100以內，成功後逐步擴大到千、萬、十萬...億、兆等。
+* 測試程式：
+    ```python=
+    import random as rd
+
+    for _ in range(10):
+        numeral = rd.randint(-99999999999999999, 99999999999999999)
+        print(f'{numeral:18}  {numeral_to_chinese(numeral=numeral)}')
+    ```
+* 輸出(和以上測試程式脫勾)：
+  ![](https://i.imgur.com/Br5TvPt.png =600x)
+---
+### <div class='t3'>ex08：函數--計算BMD和IBW</div>
+* 以下是10名病人的基本資料。請務必<span class='hi'>採用這10筆資料</span>，以便核對輸出圖。
+    |<center><span class='T'>id<br><span class='HQ'>int|<center><span class='T'>name<br><span class='HQ'>str|<center><span class='T'>gender<br><span class='HQ'>str|<center><span class='T'>dob<br><span class='HQ'>str|<center><span class='T'>height<br><span class='HQ'>int(cm)|<center><span class='T'>weight<br><span class='HQ'>float(kg)|
+   |-:|-|:-:|-|-:|-:|
+   |1 |唐滌生|M|1985-09-12|174|76.0|
+   |2 |任劍輝|F|1940-12-31|163|59.3|
+   |3 |白雪仙|F|1958-01-01|155|46.8|
+   |4 |梁醒波|M|2003-04-23|170|92.9|
+   |5 |靚次伯|M|1957-07-15|176|59.6|
+   |6 |任冰兒|F|1944-06-07|158|41.7|
+   |7 |蘇少棠|M|1966-08-02|171|73.5|
+   |8 |林家聲|M|1949-11-30|167|53.2|
+   |9 |鳳凰女|F|1974-02-26|162|72.1|
+   |10|英麗梨|F|1929-03-22|159|38.4|
+* 用您覺得最適合的型別來存放這些病人資料。變數名稱為`patients`。
+* 寫2個函數，分別計算2種不同健康指標：
+    * <span class='S f120'>1.骨質密度(BMD)風險函數</span>
+      |<div class='T'><center>名稱 |<div class='T'><center>參數 |<div class='T'><center>傳回值 |<div class='T'><center>功能|<div class='T'><center>備註|
+      |-|-|-|-|-|
+      | get_bmd_risk| 1.weight<br>2.age| 骨質密度風險(str) |計算<span class='R'>bmd_risk</span>|傳回值是「字串」|
+      * 有學者提出一套公式，利用體重(kg)和年齡，估算患骨質疏鬆症的風險程度。公式如下：
+          * <span class='HQ'>bmd_risk = (weight - age)*0.2</span>
+              * age = 西元今年年份 - 西元出生年份
+      * 風險分類判斷準則：
+        |<div class='T'><center>bmd_risk值|<center><div class='T'>風險分類字串</span></center>|<div class='T'><center>備註|
+        |-|-|-|
+        |大於-1|`low`|骨質疏鬆風險低|
+        |介於-1和-4之間|`medium`|中度風險|
+        |小於-4|`high`|骨質疏鬆風險高|
+      * 範例：
+        |<center><div class='T'>weight</span><br><span class='HQ'>參數</span></center>|<center><div class='T'>age</span><br><span class='HQ'>參數</span></center>|<div class='T'><center>骨密度風險值|<center><div class='T'>風險分類字串</span><br><span class='HQ'>傳回值</span></center>|<div class='T'><center>備註|
+        |-:|-:|-|-|-|
+        | 66.1 | 66  | (66.1 - 66)*0.2 = 0.02|`low`|骨質疏鬆風險低|
+        | 75.6 | 89  | (75.6 - 89)*0.2 = -2.68|`medium`|骨質疏鬆風險中等|
+        | 43.7 | 73  | (43.7 - 73)*0.2 = -5.86|`high`|骨質疏鬆風險高|
+    * <span class='S f120'>2.理想體重(IBW)函數</span>
+      |<div class='T'><center>名稱|<div class='T'><center>參數|<div class='T'><center>傳回值|<div class='T'><center>功能|<div class='T'><center>備註|
+      |-|-|-|-|-|
+      | get_ibw| 1.gender<br>2.height<br>3.weight| 1.理想體重(float)<br>2.體重分類(str) |計算<span class='R'>ibw</span>|本函數有2個傳回值|
+      * 理想體重(ibw)有多種計算方式，其中之一為下列公式(height單位為cm)：
+          * 男性：<span class='HQ'>ibw = (height - 80) × 70%</span>
+          * 女性：<span class='HQ'>ibw = (height - 70) × 60%</span>
+      * 體重(kg)分類字串：
+        |<div class='T'><center>範圍|<center><div class='T'>體重分類字串|<div class='T'><center>備註|
+        |-|-|-|
+        |weight低於ibw的20%以上|`scrawny`|消瘦|
+        |weight低於ibw的10%~19.9999%間|`underweight`|體重過輕|
+        |weight介於ibw的±9.9999%內|`normal`|正常 |
+        |weight高於ibw的10%~19.9999%間|`overweight`|體重過重 |
+        |weight高於ibw的20%以上|`obese`|肥胖|
+      * 範例：
+        |<center><div class='T'>gender</span><br><span class='HQ'>參數</span></center>|<center><div class='T'>height</span><br><span class='HQ'>參數</span></center>|<center><div class='T'>weight</span><br><span class='HQ'>參數</span></center>|<center><div class='T'>ibw</span><br><span class='HQ'>傳回值</span></center>|<center><div class='T'>體重分類字串</span><br><span class='HQ'>傳回值</span></center>|<div class='T'><center>備註|
+        |:-:|-:|-:|-:|-|-|
+        |M|178|57.3|68.6|`underweight`|體重過輕|
+        |F|161|103.6|54.6|`obese`|肥胖|
+        |F|149|45.2|47.4|`normal`|正常|
+        |M|198|99.1|82.6|`overweight`|體重過重|
+* 輸出<span class='hi'>內容及格式須和下圖相同或接近</span>：
+    ![](https://i.imgur.com/iKuVuFI.png =1900x)
+---
+### <div class='t3'>ex07：大樂透對獎程式</div>
+* 大樂透開獎。
+* 用ex06-1買的10張大樂透對獎，印出每張是否中獎，中獎印出獎項(頭獎、二獎...)。
+---
+### <div class='t3'>ex06：大樂透投注站(彩券行)程式</div>
+* 寫以下<span class='r'>兩支</span>程式(大樂透規則請自行查詢)：
+    1. 隨機選號賣(印)出10張大樂透。
+    2. 隨機選號賣大樂透，每次問客戶買幾張。
+        * 印出後：詢問是否繼續(Y/N)：
+            * Y⮕下一位客戶
+            * N⮕Game Over
+        * 流程圖：
+            ![](https://i.imgur.com/oIF1ZIa.png =450x)
+---
+### <div class='t3'>ex05：進階便當店結帳系統</div>
+* ex04改為不只服務一位客人。第一位客人結帳後不能結束程式，而是自動等待第二位客人...
+* 程式要有終止機制。
+---
+### <div class='t3'>ex04：簡易便當店結帳系統</div>
+* 該店只賣一種便當，價格100元。
+* 流程：
+    * <span class='HQ'>輸入</span>某客人購買數量。
+    * 算出總價。
+    * <span class='HQ'>輸入</span>客人付款金額。
+    * 判斷金額是否足夠：
+        * 剛好：謝謝。
+        * 不夠：提醒客人補足差額，再給仍不夠須再提醒，直到補足為止。提示：<span class='R'>需要迴圈</span>。
+        * 多給：找零給客人。
+    * 結束。
+* 各種「動作」(例如謝謝、提醒、找零等)用print()代替即可。
+* 流程圖：
+  ![](https://i.imgur.com/6kd4NcZ.png =600x)
+---
+### <div class='t3'>ex03：鑽石及金字塔</div>
+* 輸入layers。
+* 畫出鑽石：
+    ![](https://i.imgur.com/7ZrP8Ga.png =300x)
+* 畫金字塔：
+    ![](https://i.imgur.com/MiRiYYN.png =300x)
+---
+### <div class='t3'>ex02：計算bmi及bmd_risk</div>
+* 製造一個Excel檔，欄位和內容如下(注意型別)：
+    |<div class='T'><center>name|<div class='T'><center>dob</center></span><br><center>(文字)|<div class='T'><center>height</center></span><br><center>(int，單位：公分)|<div class='T'><center>weight</center></span><br><center>(float，單位：公斤)|
+    |-|-|-:|-:|
+    |劉◯永|1937-12-31|165|71.3|
+    |吳◯雲|1958-01-01|163|89.8|
+    |簡◯雪|1944-06-07|148|63.5|
+    |羅◯婷|2009-04-23|156|52.9|
+    |沈◯萱|1981-09-12|160|39.0|
+* 建一個名叫`df`的DataFrame，匯入以上Excel檔內容。
+* 計算每一筆資料的<span class='R'>age</span>並寫入`df`。
+    * 公式：<span class='HQ'>age = this_year - 出生年</span>　　　# <span class='HQ'>this_year</span>要是「變數」，不能寫死。
+* 計算每一筆資料的<span class='R'>bmi</span>並寫入`df`。
+* 計算每一筆資料的<span class='R'>bmd_risk</span>(骨質密度風險)並寫入`df`，其值為<span class='DG f120'>low</span>/ <span class='DG f120'>medium</span>/ <span class='DG f120'>high</span>。
+    * 公式：<span class='HQ'>骨質密度風險 = (體重 - 年齡) * 0.2</span>
+    * 結果：
+        * 大於-1: <span class='DG f120'>low</span>(骨質疏鬆風險小)；
+        * -1 ~ -4: <span class='DG f120'>medium</span>(中度風險)；
+        * 小於-4: <span class='DG f120'>high</span>(高風險)。
+    * 範例：
+        * 67.2公斤66歲，骨密度風險 = (67.2 - 66) * 0.2 = 0.24，骨質疏鬆症風險低，<span class='R'>bmd_risk</span>欄位為<span class='DG f120'>low</span>。
+        * 75.6公斤89歲，骨密度風險 = (75.6 - 89) * 0.2 = -2.68，骨質疏鬆症風險中等，<span class='R'>bmd_risk</span>欄位為<span class='DG f120'>medium</span>。
+        * 45.7公斤73歲，骨密度風險 = (45.7 - 73) * 0.2 = -5.46，骨質疏鬆症風險高，<span class='R'>bmd_risk</span>欄位為<span class='DG f120'>high</span>。
+* 將增加了<span class='R'>age</span>, <span class='R'>bmi</span>, <span class='R'>bmd_risk</span>三欄的`df`寫入另一Excel檔。
+---
+### <div class='t3'>ex01：計算年齡</div>
+* 製造一個Excel檔，須有`name`和`dob`兩欄位，型別都是「文字」。其餘欄位可有可無。資料放5筆即可，內容大致如下：
+    |<div class='T'><center>name|<div class='T'><center>dob|<div class='T'><center>(others)|
+    |-|-|-|
+    |劉◯永|1937-12-31|...|
+    |吳◯雲|1958-01-01|...|
+    |李◯雪|1944-06-07|...|
+    |羅◯婷|2009-04-23|...|
+    |沈◯萱|1981-09-12|...|
+* 建一個名叫`df`的DataFrame，匯入以上Excel檔內容。
+* `df`新增`age`欄位(原Excel檔無此欄位)，存入年齡。
+* 公式：`age = this_year - 出生年`。this_year要是變數，不能寫死。
+* 將新增`age`欄位後的`df`存入另一個Excel檔。
+---
+###### tags: `Python` `練習` `exercise`
+
+{%hackmd Ahj80ElHQN22YvosUgyMWA %}
