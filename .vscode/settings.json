@@ -321,8 +321,8 @@
     "jupyter.interactiveWindow.cellMarker.markdownRegex": "^(#\\s*%%\\s*\\[markdown\\]|#\\s*\\<markdowncell\\>)",
     "jupyter.interactiveWindow.cellMarker.decorateCells": "currentCell",
     "notebook.output.fontSize": 29,
-    "notebook.output.lineHeight": 32,
+    "notebook.output.lineHeight": 36,
     "notebook.output.fontFamily": "'Inconsolata SemiCondensed', Inconsolata, Ubuntu Mono, Iosevka, Fantasque Sans Mono, mononoki, agave, Fira Code, ProggyVector, Office Code Pro, Menlo, Consolas, 'jf open 粉圓 1.1', Noto Sans TC",
     "git.openRepositoryInParentFolders": "never",
-    "window.zoomLevel": 1,
+    "window.zoomLevel": 2,
 }
