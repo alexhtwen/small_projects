@@ -1,0 +1,350 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "<div style=\"font-family: 'Gen Jyuu Gothic Monospace Medium', 'Noto Sans TC', 'Inconsolata'; font-size: 540%; font-weight: 700; text-align: center; color: #96E7F3;\">\n",
+    "<br>\n",
+    "<font color='#ECA3A3'>我</font><font color='#D8BC66'>的</font><font color='#BBE166'>人</font><font color='#FFE8A3'>生</font><font color='#323232'>黑</font><font color='#F2F2F2'>白</font><font color='#C7DBDE'>變</font><font color='#DAAFC6'>彩</font><font color='#6C97BE'>色</font>\n",
+    "</div>\n",
+    "<br>\n",
+    "<br>\n",
+    "<br>\n",
+    "<div style=\"font-family: 'Inconsolata', 'Noto Sans TC'; font-size: 280%; text-align: center;  color: #96E7F3;\">\n",
+    "Alex又一「無聊鉅作」\n",
+    "</div>\n",
+    "<br><br><br><br><br><br><br><br><br>"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "<div style=\"text-align:center\"><img src=\"https://hackmd.io/_uploads/HyCfNz8Ip.png\" width=\"600\"/></div>"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "<div style=\"color: SteelBlue; font-family: 'Ubuntu Mono', 'Inconsolata', 'Noto Sans TC'; font-size: 300%; font-weight: 700;\">\n",
+    "Python的print()並無輸出顏色的參數\n",
+    "</div>\n",
+    "<br>\n",
+    "<div style=\"font-family: 'Inconsolata', 'Noto Sans TC'; font-size: 135%; color: Gainsboro\">\n",
+    "\n",
+    "* 所以只好自己寫一段JavaScript來改變輸出顏色。"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "%%javascript\n",
+    "// VS Code本身沒有提供輸出顏色的設定，只好自己寫一段JS。\n",
+    "document.styleSheets[0].addRule('body', 'color: #87CEFA !important;')"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "print('輸出有點顏色了。')"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "print('但顏色一成不變，好像有點無聊。')"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "<div style=\"color: SteelBlue; font-family: 'Ubuntu Mono', 'Inconsolata', 'Noto Sans TC'; font-size: 300%; font-weight: 700;\">\n",
+    "如果輸出能五彩繽紛...\n",
+    "</div>\n",
+    "<br>\n",
+    "<div style=\"font-family: 'Inconsolata', 'Noto Sans TC'; font-size: 135%; color: Gainsboro\">\n",
+    "\n",
+    "* 雖然沒啥實質作用，最少可以讓自己開心一點。\n",
+    "* 先介紹一個可以給輸出抹上彩妝的模組：`colorama`"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "<div style=\"text-align:center\"><img src=\"https://hackmd.io/_uploads/Byc82tdI6.jpg\" width=\"400\"/></div>"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 252,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "\u001b[35m\u001b[43m*黃底洋紅字*\n",
+      "\u001b[95m\u001b[103m*黃底洋紅字(淺)*\n",
+      "\u001b[41m\u001b[34m*紅底藍字*\n",
+      "\u001b[101m\u001b[94m*紅底藍字(淺)*\n",
+      "\u001b[30m\u001b[46m*青底黑字*\n",
+      "\u001b[90m\u001b[106m*青底黑字(淺)*\n",
+      "\u001b[47m\u001b[32m*白底綠字*\n",
+      "\u001b[107m\u001b[92m*白底綠字(淺)*\n",
+      "\u001b[39m\u001b[49m*還原設定*\n"
+     ]
+    }
+   ],
+   "source": [
+    "from colorama import Fore, Back\n",
+    "\n",
+    "print(f'{Fore.MAGENTA}{Back.YELLOW}*黃底洋紅字*')\n",
+    "print(f'{Fore.LIGHTMAGENTA_EX}{Back.LIGHTYELLOW_EX}*黃底洋紅字(淺)*')\n",
+    "print(f'{Back.RED}{Fore.BLUE}*紅底藍字*')\n",
+    "print(f'{Back.LIGHTRED_EX}{Fore.LIGHTBLUE_EX}*紅底藍字(淺)*')\n",
+    "print(f'{Fore.BLACK}{Back.CYAN}*青底黑字*')\n",
+    "print(f'{Fore.LIGHTBLACK_EX}{Back.LIGHTCYAN_EX}*青底黑字(淺)*')\n",
+    "print(f'{Back.WHITE}{Fore.GREEN}*白底綠字*')\n",
+    "print(f'{Back.LIGHTWHITE_EX}{Fore.LIGHTGREEN_EX}*白底綠字(淺)*')\n",
+    "print(f'{Fore.RESET}{Back.RESET}*還原設定*')"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "<div style=\"color: SteelBlue; font-family: 'Ubuntu Mono', 'Inconsolata', 'Noto Sans TC'; font-size: 300%; font-weight: 700;\">\n",
+    "All Set!\n",
+    "</div>\n",
+    "<br>\n",
+    "<div style=\"font-family: 'Inconsolata', 'Noto Sans TC'; font-size: 135%; color: Gainsboro\">\n",
+    "\n",
+    "* 套用現成模組，事情輕鬆完成。\n",
+    "* IT界名言：\"Don't reinvent the wheel.\"\n",
+    "* 不過colorama模組算不算是個現成的wheel，還不一定。\n",
+    "* 何不試試捨棄任何外在模組，讓輸出也能五顏六色？\n",
+    "* 再說一次：這些功能沒有太多實質用處，旨在練功而已。\n",
+    "---\n",
+    "* 「千里明駝，不踏山間路。」-- 宋．王炎《蝶戀花》\n",
+    "* 「千里明駝，勇闖山間路。」-- 民國．Alex Van《花戀蝶》"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "<div style=\"color: SteelBlue; font-family: 'Ubuntu Mono', 'Inconsolata', 'Noto Sans TC'; font-size: 300%; font-weight: 700;\">\n",
+    "閉門造車(輪)開始\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "<div style=\"text-align:center\"><img src=\"https://hackmd.io/_uploads/B1qh2r_IT.png\" width=\"900\"/></div>"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "<div style=\"color: DarkSalmon; font-family: 'Ubuntu Mono', 'Inconsolata', 'Noto Sans TC'; font-size: 250%; font-weight: 700;\">\n",
+    "利用ANSI Escape Sequences來改變輸出顏色\n",
+    "\n",
+    "</div>\n",
+    "<br>\n",
+    "<div style=\"font-family: 'Inconsolata', 'Noto Sans TC'; font-size: 135%; color: Gainsboro\">\n",
+    " \n",
+    "* [ANSI Escape Sequences](https://gist.github.com/fnky/458719343aabd01cfb17a3a4f7296797)\n",
+    "* 16色色碼表：\n",
+    "    |Color Name|Fore Color Code|Back Color Code|\n",
+    "    |--|--|--|\n",
+    "    |Black|30|40|\n",
+    "    |Red|31|41|\n",
+    "    |Green|32|42|\n",
+    "    |Yellow|33|43|\n",
+    "    |Blue|34|44|\n",
+    "    |Magenta|35|45|\n",
+    "    |Cyan|36|46|\n",
+    "    |White|37|47|\n",
+    "    |Bright Black|90|100|\n",
+    "    |Bright Red|91|101|\n",
+    "    |Bright Green|92|102|\n",
+    "    |Bright Yellow|93|103|\n",
+    "    |Bright Blue|94|104|\n",
+    "    |Bright Magenta|95|105|\n",
+    "    |Bright Cyan|96|106|\n",
+    "    |Bright White|97|107|\n",
+    "    |Default|39|49|\n",
+    "    |Reset|0|0|\n",
+    "* RGB Colors: More modern terminals supports Truecolor (24-bit RGB), which allows you to set foreground and background colors using RGB.\n",
+    "    * These escape sequences are usually not well documented.\n",
+    "        |ESC Code Sequence|Description|\n",
+    "        |--|--|\n",
+    "        |ESC[38;2;{r};{g};{b}m|Set foreground color as RGB.|\n",
+    "        |ESC[48;2;{r};{g};{b}m|Set background color as RGB.|\n",
+    "    * 範例：\n",
+    "        ```\n",
+    "        print('\\x1b[38;2;255;124;135m\\x1b[48;2;199;230;127mHello, world.')\n",
+    "        ```\n",
+    "    * 輸出：\n",
+    "        <div style=\"text-align:center\"><img src=\"https://hackmd.io/_uploads/rykngLuLT.png\" width=\"400\"/></div>"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "\u001b[35m\u001b[43m*黃底洋紅字*\n",
+      "\u001b[95m\u001b[103m*黃底洋紅字(淺)*\n",
+      "\u001b[41m\u001b[34m*紅底藍字*\n",
+      "\u001b[101m\u001b[94m*紅底藍字(淺)*\n",
+      "\u001b[30m\u001b[46m*青底黑字*\n",
+      "\u001b[90m\u001b[106m*青底黑字(淺)*\n",
+      "\u001b[47m\u001b[32m*白底綠字*\n",
+      "\u001b[107m\u001b[92m*白底綠字(淺)*\n",
+      "\u001b[39m\u001b[49m*還原設定*\n"
+     ]
+    }
+   ],
+   "source": [
+    "class Colors():\n",
+    "    class Fore():\n",
+    "        BLACK = '\\x1b[30m'\n",
+    "        RED = f'{chr(27)}[31m'   # \\x1b[31m'\n",
+    "        GREEN = f'{chr(27)}[32m'  # '\\x1b[32m'\n",
+    "        YELLOW = '\\x1b[33m'\n",
+    "        BLUE = '\\x1b[34m'\n",
+    "        MAGENTA = '\\x1b[35m'\n",
+    "        CYAN = '\\x1b[36m'\n",
+    "        WHITE = '\\x1b[37m'\n",
+    "        BRIGHT_BLACK = '\\x1b[90m'\n",
+    "        BRIGHT_RED = '\\x1b[91m'\n",
+    "        BRIGHT_GREEN = '\\x1b[92m'\n",
+    "        BRIGHT_YELLOW = '\\x1b[93m'\n",
+    "        BRIGHT_BLUE = '\\x1b[94m'\n",
+    "        BRIGHT_MAGENTA = '\\x1b[95m'\n",
+    "        BRIGHT_CYAN = '\\x1b[96m'\n",
+    "        BRIGHT_WHITE = '\\x1b[97m'\n",
+    "        DEFAULT = '\\x1b[39m'\n",
+    "\n",
+    "    class Back():\n",
+    "        BLACK = '\\x1b[40m'\n",
+    "        RED = '\\x1b[41m'\n",
+    "        GREEN = '\\x1b[42m'\n",
+    "        YELLOW = '\\x1b[43m'\n",
+    "        BLUE = '\\x1b[44m'\n",
+    "        MAGENTA = '\\x1b[45m'\n",
+    "        CYAN = '\\x1b[46m'\n",
+    "        WHITE = '\\x1b[47m'\n",
+    "        BRIGHT_BLACK = '\\x1b[100m'\n",
+    "        BRIGHT_RED = '\\x1b[101m'\n",
+    "        BRIGHT_GREEN = '\\x1b[102m'\n",
+    "        BRIGHT_YELLOW = '\\x1b[103m'\n",
+    "        BRIGHT_BLUE = '\\x1b[104m'\n",
+    "        BRIGHT_MAGENTA = '\\x1b[105m'\n",
+    "        BRIGHT_CYAN = '\\x1b[106m'\n",
+    "        BRIGHT_WHITE = '\\x1b[107m'\n",
+    "        DEFAULT = '\\x1b[49m'\n",
+    "\n",
+    "\n",
+    "print(f'{Colors.Fore.MAGENTA}{Colors.Back.YELLOW}*黃底洋紅字*')\n",
+    "print(f'{Colors.Fore.BRIGHT_MAGENTA}{Colors.Back.BRIGHT_YELLOW}*黃底洋紅字(淺)*')\n",
+    "print(f'{Colors.Back.RED}{Colors.Fore.BLUE}*紅底藍字*')\n",
+    "print(f'{Colors.Back.BRIGHT_RED}{Colors.Fore.BRIGHT_BLUE}*紅底藍字(淺)*')\n",
+    "print(f'{Colors.Fore.BLACK}{Colors.Back.CYAN}*青底黑字*')\n",
+    "print(f'{Colors.Fore.BRIGHT_BLACK}{Colors.Back.BRIGHT_CYAN}*青底黑字(淺)*')\n",
+    "print(f'{Colors.Back.WHITE}{Colors.Fore.GREEN}*白底綠字*')\n",
+    "print(f'{Colors.Back.BRIGHT_WHITE}{Colors.Fore.BRIGHT_GREEN}*白底綠字(淺)*')\n",
+    "print(f'{Colors.Fore.DEFAULT}{Colors.Back.DEFAULT}*還原設定*')\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "<div style=\"text-align:center\"><img src=\"https://hackmd.io/_uploads/r1mSyb9Ja.png\" width=\"350\"/></div>"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "<div style=\"color: SteelBlue; font-family: 'Ubuntu Mono', 'Inconsolata', 'Noto Sans TC'; font-size: 300%; font-weight: 700;\">\n",
+    "More about ANSI Escape Sequences\n",
+    "</div>\n",
+    "<br>\n",
+    "<div style=\"font-family: 'Inconsolata', 'Noto Sans TC'; font-size: 135%; color: Gainsboro\">\n",
+    "\n",
+    "* 請注意：在下這篇介紹的是`ANSI Escape Sequences`，而不是一般程式語言的`Escape Sequences`。這兩者都叫`Escape Sequences`，可是其目的和效果是不一樣的。\n",
+    "* 以下是筆者和ChatGPT4討論時，老Chat給出的兩者差別說明：\n",
+    "* <span style=\"font-size: 110%; color: #fb421a; font-weight: 800\">ANSI Escape Sequences</span> (e.g., \\033[...m for color codes)\n",
+    "    * Purpose: These sequences are used <font color='#FFE599'><b>to control formatting, color, and other output options in terminal/console environments</b></font>. They are not specific to any programming language but to the terminal or console that interprets them.\n",
+    "    * Syntax: Often starts with the ESC character (\\033 in octal or \\x1b in hexadecimal) followed by a [, and then a series of numbers and letters. For instance, <font color='#639DD1'>\\033[31m sets the text color to red</font>.\n",
+    "    * Scope: They are interpreted by the terminal or console environment where the output is being displayed. These sequences are standardized across different terminal types that support ANSI standards.\n",
+    "* <span style=\"font-size: 110%; color: #fb421a; font-weight: 800\">Escape Sequences in Programming Languages</span> (e.g., \\n, \\t)\n",
+    "    * Purpose: These are character combinations that represent special characters in string literals. They are used in programming languages <font color='#FFE599'><b>to denote characters that are not easily represented in code</b></font>. For instance, <font color='#639DD1'>\\n for a newline, \\t for a tab</font>, etc.\n",
+    "    * Syntax: Begins with a backslash (\\) followed by a character that signifies a specific control character. This syntax is a convention in many programming languages like Python, C, Java, etc.\n",
+    "    * Scope: They are interpreted by the compiler or interpreter of the programming language. These escape sequences have a language-specific context and are standardized across different environments for that language.\n",
+    "* Key Differences\n",
+    "    * Context of Use: Programming language escape sequences are used within the context of the language's string processing, while ANSI Escape Sequences are for controlling the behavior of terminal emulators.\n",
+    "    * Interpretation: Language-specific escape sequences are interpreted by the language's compiler/interpreter, whereas ANSI sequences are interpreted by the terminal or console.\n",
+    "    * Functionality: Language escape sequences mainly deal with representing non-printable characters or special formatting within strings. ANSI sequences, on the other hand, offer a broader range of control over the output environment, including color, cursor positioning, and screen clearing.\n",
+    "* Conclusion\n",
+    "    While both are termed \"escape sequences,\" they serve different purposes and operate in distinct contexts. The backslash (\\) escape sequences are integral to programming language syntax for string processing, whereas ANSI Escape Sequences are a way to instruct the terminal on how to display text and are not specific to any programming language.\n",
+    "---\n",
+    "\n",
+    "* ANSI Escape Sequences格式：\n",
+    "    * 前綴符：`ESC`：\n",
+    "        * 10進位：`chr(27)`   　　# Python\n",
+    "        * 8進位：`\\033`\n",
+    "        * 16進位：`\\x1b`\n",
+    "    * 前綴符之後多半跟著一個`[` (少數情形下沒有`[`)。\n",
+    "    * Cursor Controls: \n",
+    "        <div style=\"font-size: 90%;\">\n",
+    "        \n",
+    "        |ESC Code Sequence|Description|範例|\n",
+    "        |--|--|--|\n",
+    "        |`ESC`[H|moves cursor to <br>home position (0, 0)|`print(f'\\033[1H至第1列第1欄', end='')`|\n",
+    "        |`ESC`[{line};{column}H<br>ESC[{line};{column}f|moves cursor to <br>line #, column #|`print(f'\\x1b[12;30H至第12列第30欄', end='')`|\n",
+    "        |`ESC`[#A|moves cursor up # lines|`print(f'{chr(27)}[7A上移7列', end='')`|\n",
+    "        |`ESC`[#B|moves cursor down # lines|`print(f'\\033[2B下移2列', end='')`|\n",
+    "        |`ESC`[#C|moves cursor right # columns|`print(f'\\x1b[3C右移3欄', end='')`|\n",
+    "        |`ESC`[#D|moves cursor left # columns|`print(f'{chr(27)}[60D左移60欄', end='')`|\n",
+    "        |`ESC`[#E|moves cursor to beginning<br>of next line, # lines down|`print(f'\\033[9E往下9列並移至列首', end='')`|\n",
+    "        |`ESC`[#F|moves cursor to beginning<br>of previous line, # lines up|`print(f'\\x1b[1F往上1列並移至列首', end='')`|\n",
+    "        |`ESC`[#G|moves cursor to column #|`print(f'{chr(27)}[33G平移至同列第33欄', end='')`|\n",
+    "        |以下略...|||\n",
+    "        </div>\n",
+    "    "
+   ]
+  }
+],
+ "nbformat": 4,
+ "nbformat_minor": 2
+}

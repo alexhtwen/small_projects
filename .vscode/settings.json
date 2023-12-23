@@ -313,7 +313,7 @@
     "[python]": {
       "editor.formatOnType": true
     },
-    "editor.lightbulb.enabled": false,
+    "editor.lightbulb.enabled": "off",
     "search.showLineNumbers": true,
     "thunder-client.saveToWorkspace": true,
     "CodeGPT.query.language": "English",
