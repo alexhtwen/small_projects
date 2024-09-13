@@ -1,0 +1,5 @@
+2024-07-23 13:37:34,200 - file_example_logger - DEBUG - This is a debug message
+2024-07-23 13:37:34,200 - file_example_logger - INFO - This is an info message
+2024-07-23 13:37:34,200 - file_example_logger - WARNING - This is a warning message
+2024-07-23 13:37:34,201 - file_example_logger - ERROR - This is an error message
+2024-07-23 13:37:34,201 - file_example_logger - CRITICAL - This is a critical message

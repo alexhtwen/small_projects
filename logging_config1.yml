@@ -1,0 +1,38 @@
+version: 1
+formatters:
+  with_milliseconds:
+    format: '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+    datefmt: '%Y-%m-%d %H:%M:%S,%f'
+
+  without_milliseconds:
+    format: '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+    datefmt: '%Y-%m-%d %H:%M:%S'
+
+handlers:
+  console:
+    class: logging.StreamHandler
+    level: INFO
+    formatter: with_milliseconds
+    stream: ext://sys.stdout
+
+  file_with_milliseconds:
+    class: logging.FileHandler
+    level: DEBUG
+    formatter: with_milliseconds
+    filename: example_with_milliseconds.log
+
+  file_without_milliseconds:
+    class: logging.FileHandler
+    level: DEBUG
+    formatter: without_milliseconds
+    filename: example_without_milliseconds.log
+
+loggers:
+  my_logger:
+    level: DEBUG
+    handlers: [console]
+    propagate: no
+
+root:
+  level: DEBUG
+  handlers: [console]
